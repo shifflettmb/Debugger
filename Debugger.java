@@ -27,7 +27,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	private Butterfly[] Creature = new Butterfly[4];
 	private centipede[] centi = new centipede[2]; 
 	private Spider[] Muffet = new Spider[1]; 
-	private world Earth; //probably the most "I am alpha and omega" line of code ever. 
+	private world Earth; 
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
 	private GLU glu = new GLU();
@@ -49,7 +49,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glDepthFunc(GL2.GL_LEQUAL);
 		//  How nice is the drawing?
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-		Earth = new world(gl);
+		Earth = new world(gl); //probably the most "I am alpha and omega" line of code ever. 
 		for(int i=0; i<Creature.length; i++)
 		Creature[i] = new Butterfly(gl, canvas, 80f, 80f);
 		for(int i=0; i<Muffet.length; i++)
@@ -179,6 +179,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			movez = new Float(eyez-stepsize*Math.sin(Math.toRadians(viewangle)));
 			//makes people fly! :D
 			//movey = new Float(eyey+stepsize*Math.cos(Math.toRadians(rotateY)));
+			if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
+				break;
 			eyex = movex;
 			eyez = movez;	
 			break;
@@ -190,7 +192,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			movex = new Float(eyex-stepsize*Math.cos(Math.toRadians(viewangle))); 
 			movez = new Float(eyez+stepsize*Math.sin(Math.toRadians(viewangle)));
 			//movey = new Float(eyey-stepsize*Math.cos(Math.toRadians(rotateY)));
-
+			if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
+				break;
 			eyex = movex;
 			eyez = movez;
 			break;
