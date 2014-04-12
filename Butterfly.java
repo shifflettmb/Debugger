@@ -63,14 +63,13 @@ public class Butterfly
 		gl.glPushMatrix();
 		gl.glTranslatef(x, y,z); 
 		//draw stuff here
-		grass(gl, limit);
 		Butt(gl);
 		gl.glPopMatrix();
 		move(limit);
 	}
 	//movement code
 	private void move(int limit){
-		
+		limit = 160;
 		if (paused)
 			return;
 		timer++;
@@ -98,27 +97,10 @@ public class Butterfly
 		//this helps limit motion to the range given. Remove if unwanted. 
 		//note that it's not a "hard" limit and they may wander, but will continuously "search" for the area.
 		//when they get back, their motion becomes less sporatic.
-		if ((tranX<-limit || tranX > limit || tranZ<-limit || tranZ > limit) && move)
+		if ((tranX<10 || tranX > limit || tranZ<10 || tranZ > limit) && move)
 			rotateY+=180;
 	}
 
-	// Grass field
-	private void grass(GL2 gl, float size)
-	{
-		gl.glPushMatrix();
-		gl.glDisable(GL2.GL_TEXTURE_2D);
-		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor3f(0, 1, 0);
-		gl.glTexCoord2f(-size,-size); gl.glVertex3f( -size, -0.01f,  -size);
-		gl.glTexCoord2f(size,-size); gl.glVertex3f( -size, -0.01f, size);
-		gl.glTexCoord2f(size, size); gl.glVertex3f(size, -0.01f, size);
-		gl.glColor3f(0, .5f, 0);
-		gl.glTexCoord2f(-size, size); gl.glVertex3f(size, -0.01f,  -size);
-		gl.glEnd();
-
-		gl.glDisable(GL2.GL_TEXTURE_2D);
-		gl.glPopMatrix();
-	}
 	//needed to change the name from butterfly to avoid it looking like a constructor...
 	//My 4 letter naming system has betrayed me here.
 	private void Butt(GL2 gl){

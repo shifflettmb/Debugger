@@ -64,7 +64,6 @@ public class Spider
 
 		gl.glTranslatef(x, y,z); 
 		//draw stuff here
-		grass(gl, limit);
 		spid(gl);
 		gl.glPopMatrix();
 		move(limit);
@@ -72,6 +71,7 @@ public class Spider
 	//movement code
 	private void move(int limit){
 		spidSpeed = (float)HP/2000;
+		limit = 150;
 		if (HP < 0)
 			return;
 		else if (HP<20)
@@ -97,28 +97,9 @@ public class Spider
 		//this helps limit motion to the range given. Remove if unwanted. 
 		//note that it's not a "hard" limit and they may wander, but will continuously "search" for the area.
 		//when they get back, their motion becomes less sporatic.
-		if ((tranX<-limit || tranX > limit || tranZ<-limit || tranZ > limit) && move)
+		if ((tranX<10 || tranX > limit || tranZ<10 || tranZ > limit) && move)
 			rotateY+=180;
 	}
-
-	// Grass field
-	private void grass(GL2 gl, float size)
-	{
-		gl.glPushMatrix();
-		gl.glDisable(GL2.GL_TEXTURE_2D);
-		gl.glBegin(GL2.GL_QUADS);
-		gl.glColor3f(0, 1, 0);
-		gl.glTexCoord2f(-size,-size); gl.glVertex3f( -size, -0.01f,  -size);
-		gl.glTexCoord2f(size,-size); gl.glVertex3f( -size, -0.01f, size);
-		gl.glTexCoord2f(size, size); gl.glVertex3f(size, -0.01f, size);
-		gl.glColor3f(0, .5f, 0);
-		gl.glTexCoord2f(-size, size); gl.glVertex3f(size, -0.01f,  -size);
-		gl.glEnd();
-
-		gl.glDisable(GL2.GL_TEXTURE_2D);
-		gl.glPopMatrix();
-	}
-
 	private void spid(GL2 gl){
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
 		//5-size to ensure the height of 5 thing.

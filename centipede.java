@@ -71,7 +71,7 @@ public class centipede
 	}
 	//movement code
 	private void move(float limit){
-
+		limit = 150;
 		if (paused)
 			return;
 		//can make them stationary
@@ -102,7 +102,7 @@ public class centipede
 		//this helps limit motion to the range given. Remove if unwanted. 
 		//note that it's not a "hard" limit and they may wander, but will continuously "search" for the area.
 		//when they get back, their motion becomes less sporatic.
-		if ((body.get(i).x<-limit || body.get(i).x > limit || body.get(i).z<-limit || body.get(i).z > limit) && move) {
+		if ((body.get(i).x<10 || body.get(i).x > limit || body.get(i).z<10 || body.get(i).z > limit) && move) {
 			body.get(i).rotateY+=90;
 			Float movex = new Float(body.get(i).x+centSpeed*Math.cos(Math.toRadians(body.get(i).rotateY))); 
 			Float movez = new Float(body.get(i).z-centSpeed*Math.sin(Math.toRadians(body.get(i).rotateY)));	
@@ -114,7 +114,7 @@ public class centipede
 		gl.glPushMatrix();
 		float color=.5f;
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
-		gl.glTranslatef(tranX, 0, tranZ);
+		
 		for (int i = 0; i<HP/20-1; i++)
 		{
 			gl.glPushMatrix();
