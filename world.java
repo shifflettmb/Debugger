@@ -1,17 +1,18 @@
 import javax.media.opengl.GL2;
+
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 
 import javax.media.opengl.glu.*;
 
-import java.io.IOException;
 import java.io.*;
 
 
 public class world {
 	private Texture Grass;
 	private GLUquadric quadric; 
-	public float x1, x2, z1, z2; 
+	public float x1, x2, z1, z2;
+	public tronRoom rooms[] = new tronRoom[8]; 
 	private GLU glu = new GLU();
 	public world (GL2 gl) {
 
@@ -26,6 +27,25 @@ public class world {
 
 		x1=z1=0f;
 		x2=z2=160f; 
+		float c1,c2,c3;
+		float x = 20f; 
+		float z = 20f; 
+		//DECLARING ROOMS
+		for (int i = 0; i<8; i++) { 
+			if (x==60 && z==60)
+				x+=40; //skip courtyard
+			if (x%3==0 || z==60) {
+				c3=c1=1f;
+				c2=0f;
+			} else {
+				c3=c1=0f;
+				c2=1f;
+			}
+			
+			rooms[i]=new tronRoom(gl, (x+(i*.01f)),0f,z+(.01f*i),c1,c2, c3);
+			x+=40;
+			if (x>101){	x=20; z+=40;}
+		}
 
 	}
 	public void draw(GL2 gl)	{
@@ -33,10 +53,31 @@ public class world {
 
 		//draw stuff here
 		grass(gl); 
+		for (int i =0; i<rooms.length; i++)
+			rooms[i].draw(gl);
 		wall(gl);
 		gl.glPopMatrix();
 
 	}  
+	private void wall (GL2 gl){
+		float num = 5; 
+		Grass.enable(gl);
+		Grass.bind(gl);
+		gl.glPushMatrix(); 
+		gl.glColor3f(.8f, .8f, .8f);
+		gl.glTranslatef(80,0,80); //move to the center of the room
+		for (int i=0; i<5; i++){ 
+			gl.glBegin(GL2.GL_QUADS);
+			gl.glTexCoord2f(0,0); gl.glVertex3f(x1-80, -0.01f,  z1-80);
+			gl.glTexCoord2f(num, 0); gl.glVertex3f( x1-80, -0.01f, z2-80);
+			gl.glTexCoord2f(num,num/2); gl.glVertex3f(x1-80, 20f,  z2-80);
+			gl.glTexCoord2f(0, num/2); gl.glVertex3f( x1-80, 20f, z1-80);
+			gl.glEnd();
+			gl.glRotatef(90, 0, 1, 0);
+		}
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		gl.glPopMatrix(); 
+	}
 	private Texture CreateTexture(GL2 gl, String filename)
 	{
 		Texture tex = null;
@@ -81,27 +122,5 @@ public class world {
 		gl.glDisable(GL2.GL_TEXTURE_2D);
 		gl.glPopMatrix();
 
-	}
-	private void wall (GL2 gl){
-		float num = 5; 
-		Grass.enable(gl);
-		Grass.bind(gl);
-		gl.glPushMatrix(); 
-		gl.glColor3f(.8f, .8f, .8f);
-		gl.glTranslatef(80,0,80); //move to the center of the room
-		for (int i=0; i<5; i++){ 
-			gl.glBegin(GL2.GL_QUADS);
-		
-		
-			
-			gl.glTexCoord2f(0,0); gl.glVertex3f(x1-80, -0.01f,  z1-80);
-			gl.glTexCoord2f(num, 0); gl.glVertex3f( x1-80, -0.01f, z2-80);
-			gl.glTexCoord2f(num,num/2); gl.glVertex3f(x1-80, 20f,  z2-80);
-			gl.glTexCoord2f(0, num/2); gl.glVertex3f( x1-80, 20f, z1-80);
-			gl.glEnd();
-			gl.glRotatef(90, 0, 1, 0);
-		}
-		gl.glDisable(GL2.GL_TEXTURE_2D);
-		gl.glPopMatrix(); 
 	}
 }
