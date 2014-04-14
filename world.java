@@ -22,7 +22,6 @@ public class world {
 		glu.gluQuadricTexture  (quadric, true);        // use true to generate texture coordinates
 
 		gl.glEnable(GL2.GL_TEXTURE_2D);
-
 		Grass = CreateTexture(gl, "textures/tron.jpg");
 
 		x1=z1=0f;

@@ -14,7 +14,7 @@ import java.io.*;
 class tronRoom
 {
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
-	private Texture Grass;
+	private Texture Grass, Walls, Ceil;
 	private Float c1, c2, c3, x, y, z; 
 	private GLU glu = new GLU();
 
@@ -25,7 +25,9 @@ class tronRoom
 		glu.gluQuadricNormals  (quadric, GLU.GLU_NONE); // GLU_NONE, GLU_FLAT, or GLU_SMOOTH
 		glu.gluQuadricTexture  (quadric, false);        // use true to generate texture coordinates
 		gl.glEnable(GL2.GL_TEXTURE_2D);
-		Grass = CreateTexture(gl, "textures/tron.jpg");
+		Walls = CreateTexture(gl, "textures/tronWall.jpg");
+		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
+		Grass =  CreateTexture(gl, "textures/tron.jpg");
 		c1= c2 = c3=1f; 
 		x=y=z=0f;
 	}
@@ -36,7 +38,9 @@ class tronRoom
 		glu.gluQuadricNormals  (quadric, GLU.GLU_NONE); // GLU_NONE, GLU_FLAT, or GLU_SMOOTH
 		glu.gluQuadricTexture  (quadric, false);        // use true to generate texture coordinates
 		gl.glEnable(GL2.GL_TEXTURE_2D);
-		Grass = CreateTexture(gl, "textures/tron.jpg");
+		Walls = CreateTexture(gl, "textures/tronWall.jpg");
+		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
+		Grass =  CreateTexture(gl, "textures/tron.jpg");
 		this.c1=c1;
 		this.c2=c2; 
 		this.c3=c3; 
@@ -86,8 +90,8 @@ class tronRoom
 	{
 		float bx = 1f, by = 1f;
 		gl.glDisable(GL2.GL_TEXTURE_2D);
-		Grass.enable(gl);
-		Grass.bind(gl);
+		Walls.enable(gl);
+		Walls.bind(gl);
 		// wall one
 		gl.glBegin(GL2.GL_QUADS);
 		gl.glTexCoord2f( 0f, 0f); gl.glVertex3f(0,  0, 17);
@@ -140,6 +144,9 @@ class tronRoom
 		gl.glTexCoord2f( bx, by); gl.glVertex3f(23, 10, 0);
 		gl.glTexCoord2f( 0f, by); gl.glVertex3f(40, 10, 0);
 		gl.glEnd();
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		Ceil.enable(gl);
+		Ceil.bind(gl);
 		//ceiling
 		gl.glBegin(GL2.GL_QUADS);	
 		gl.glTexCoord2f(1, 1); gl.glVertex3f(0, 10,  0);
@@ -148,6 +155,9 @@ class tronRoom
 		gl.glTexCoord2f(1,0); gl.glVertex3f(40, 10,  0);
 		gl.glEnd();
 		//floor 
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		Grass.enable(gl);
+		Grass.bind(gl);
 		gl.glBegin(GL2.GL_QUADS);	
 		gl.glTexCoord2f(1, 1); gl.glVertex3f(0, 0,  0);
 		gl.glTexCoord2f(0f, 1); gl.glVertex3f(0, 0, 40);
