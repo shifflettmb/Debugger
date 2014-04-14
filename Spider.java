@@ -31,6 +31,10 @@ public class Spider
 		tranZ=0f; 
 
 	}
+	public Float[] getPos(){
+		Float[] temp = {tranX, size+legsize,tranZ}; 
+		return temp;
+	}
 	//to start a Spider off at X, Z coords
 	public Spider(GL2 gl, GLCanvas canvas, Float X, Float Z) 
 	{

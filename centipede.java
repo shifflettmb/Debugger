@@ -38,7 +38,7 @@ public class centipede
 			body.get(i).z=tranZ+(2*size*i); 
 		}
 	}
-	//to start a Centipede off at X, Z coords
+	public int bodyLength(){return (int) HP/20;}
 	public centipede(GL2 gl, GLCanvas canvas, Float X, Float Z) 
 	{
 		quadric = glu.gluNewQuadric();

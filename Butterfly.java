@@ -32,6 +32,10 @@ public class Butterfly
 		tranZ=0f; 
 
 	}
+	public Float[] getPos(){
+		Float[] temp = {tranX, tranY, tranZ}; // :C 
+		return temp;
+	}
 	//to start a Butterfly off at X, Z coords
 	public Butterfly(GL2 gl, GLCanvas canvas, Float X, Float Z) 
 	{
