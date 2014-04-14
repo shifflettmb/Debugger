@@ -7,7 +7,6 @@ import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
 import javax.media.opengl.glu.*;
 import com.jogamp.opengl.util.*;
-//import com.jogamp.opengl.util.gl2.GLUT;
 import java.awt.Robot;
 //Controls: WASD to move, arrow keys to pan camera. IE: 'W' moves you forward, 'UpArrow' makes you look up. 
 // 			**You may also use your mouse to pan the camera around. **
@@ -96,12 +95,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(eyex, 10, eyez, 					// eye location
-				eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
-				eyey, 
-				eyez-Math.sin(Math.toRadians(viewangle)),	
-				0f,1f,0f); 						// the "up" direction
-
+		glu.gluLookAt(eyex, 0, eyez, eyex+Math.cos(Math.toRadians(viewangle)),	-50, eyez-Math.sin(Math.toRadians(viewangle)),	0f,1f,0f); 						
+	
 		Earth.draw(gl);
 		for (int i =0; i<Creature.length; i++)
 			Creature[i].draw(gl);
