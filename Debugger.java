@@ -52,10 +52,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
 		Earth = new world(gl); //probably the most "I am alpha and omega" line of code ever. 
 		for(int i=0; i<Creature.length; i++)
-		Creature[i] = new Butterfly(gl, canvas, 80f, 80f);
+			Creature[i] = new Butterfly(gl, canvas, 80f, 80f);
 		for(int i=0; i<Muffet.length; i++)
 			Muffet[i]=new Spider(gl, canvas, 80f, 80f); 
-	
+
 		for(int i=0; i<centi.length; i++)
 			centi[i] = new centipede(gl, canvas, 80f, 80f);
 
@@ -63,67 +63,53 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	public void display(GLAutoDrawable drawable)
 	{
-    	//width = height = Math.min(drawable.getWidth(), drawable.getHeight());
+		//width = height = Math.min(drawable.getWidth(), drawable.getHeight());
 		GL2 gl  = drawable.getGL().getGL2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-		  for (int loop = 0; loop < 2; loop ++){
-			  if (loop == 0) {
 
-				  gl.glMatrixMode(GL2.GL_PROJECTION);
-				  gl.glLoadIdentity();
-				  gl.glViewport(0, 0, width/2, height); 
-				  glu.gluPerspective(90., 1., .5, 180.); 		// fov, aspect, near-clip, far clip
-				  gl.glMatrixMode(GL2.GL_MODELVIEW);
-				  gl.glLoadIdentity();
-				  glu.gluLookAt(eyex, eyey, eyez, 					// eye location
-						  eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
-						  eyey, 
-						  eyez-Math.sin(Math.toRadians(viewangle)),	
-						  0f,1f,0f); 						// the "up" direction
-				  
-				  Earth.draw(gl);
-					for (int i =0; i<Creature.length; i++)
-						Creature[i].draw(gl);
-					for (int i =0; i<Muffet.length; i++)
-						Muffet[i].draw(gl);
-					for(int i=0; i<centi.length; i++)
-						centi[i].draw(gl);
-			  }
 
-			  if (loop == 1) {
-
-				  gl.glMatrixMode(GL2.GL_PROJECTION);
-				  gl.glLoadIdentity();
-				  gl.glViewport(width/2, 0, width/2, height);	
-				  gl.glOrtho(-width/2, width/2, -height/2, height/2, 0.1, 9.9);
-				  //glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
-				  gl.glMatrixMode(GL2.GL_MODELVIEW);
-				  gl.glLoadIdentity();
-				  glu.gluLookAt(eyex, 10, eyez, 					// eye location
-						  eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
-						  eyey, 
-						  eyez-Math.sin(Math.toRadians(viewangle)),	
-						  0f,1f,0f); 						// the "up" direction
-
-				  Earth.draw(gl);
-					for (int i =0; i<Creature.length; i++)
-						Creature[i].draw(gl);
-					for (int i =0; i<Muffet.length; i++)
-						Muffet[i].draw(gl);
-					for(int i=0; i<centi.length; i++)
-						centi[i].draw(gl);
-
-				  }
-		  }
-		
-		/*gl.glLoadIdentity();
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+		gl.glViewport(0, 0, width/2, height); 
+		glu.gluPerspective(90., 1., .5, 180.); 		// fov, aspect, near-clip, far clip
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		gl.glLoadIdentity();
 		glu.gluLookAt(eyex, eyey, eyez, 					// eye location
-				eyex+Math.cos(Math.toRadians(viewangle)), 	// point to look at (near middle)
-				eyey+Math.cos(Math.toRadians(rotateY)), 
+				eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
+				eyey, 
 				eyez-Math.sin(Math.toRadians(viewangle)),	
-				0f,1f,0f); 						// the "up" direction (y)
-		*/
+				0f,1f,0f); 						// the "up" direction
+
+		Earth.draw(gl);
+		for (int i =0; i<Creature.length; i++)
+			Creature[i].draw(gl);
+		for (int i =0; i<Muffet.length; i++)
+			Muffet[i].draw(gl);
+		for(int i=0; i<centi.length; i++)
+			centi[i].draw(gl);
+
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+		gl.glViewport(width/2, 0, width/2, height);	
+		gl.glOrtho(-width/2, width/2, -height/2, height/2, 0.1, 9.9);
+		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		gl.glLoadIdentity();
+		glu.gluLookAt(eyex, 10, eyez, 					// eye location
+				eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
+				eyey, 
+				eyez-Math.sin(Math.toRadians(viewangle)),	
+				0f,1f,0f); 						// the "up" direction
+
+		Earth.draw(gl);
+		for (int i =0; i<Creature.length; i++)
+			Creature[i].draw(gl);
+		for (int i =0; i<Muffet.length; i++)
+			Muffet[i].draw(gl);
+		for(int i=0; i<centi.length; i++)
+			centi[i].draw(gl);
+
 		// check for errors
 		int error = gl.glGetError();
 		if (error != GL.GL_NO_ERROR)
@@ -143,9 +129,9 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		glu.gluLookAt(eyex, eyey, eyez, 					// eye location
-					eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
-					eyey, eyez-Math.sin(Math.toRadians(viewangle)),	
-					0f,1f,0f); 						// the "up" direction (y)
+				eyex+Math.cos(Math.toRadians(viewangle)),	// point to look at (near middle)
+				eyey, eyez-Math.sin(Math.toRadians(viewangle)),	
+				0f,1f,0f); 						// the "up" direction (y)
 
 	}
 
@@ -219,7 +205,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			}
 			if (BETAmode)
 				Creature[3].paused=!Creature[3].paused;
-		
+
 			break;
 		case KeyEvent.VK_W:
 			movex = new Float(eyex+stepsize*Math.cos(Math.toRadians(viewangle))); 
