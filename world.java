@@ -1,3 +1,4 @@
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import com.jogamp.opengl.util.texture.Texture;
@@ -9,9 +10,9 @@ import java.io.*;
 
 
 public class world {
-	private Texture Grass;
+	private Texture Grass, Di;
 	private GLUquadric quadric; 
-	public float x1, x2, z1, z2;
+	public float x1, x2, z1, z2, rotate=0f;
 	public tronRoom rooms[] = new tronRoom[8]; 
 	private GLU glu = new GLU();
 	public world (GL2 gl) {
@@ -23,7 +24,7 @@ public class world {
 
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		Grass = CreateTexture(gl, "textures/tron.jpg");
-
+		Di =  CreateTexture(gl, "textures/tronDi.jpg");
 		x1=z1=0f;
 		x2=z2=160f; 
 		float c1,c2,c3;
@@ -41,7 +42,7 @@ public class world {
 				c2=1f;
 			}
 			
-			rooms[i]=new tronRoom(gl, (x+(i*.01f)),0f,z+(.01f*i),c1,c2, c3);
+			rooms[i]=new tronRoom(gl, (x+(((x-20)/40)*.01f)),0f,z+(z-20)/40*.01f,c1,c2, c3);
 			x+=40;
 			if (x>101){	x=20; z+=40;}
 		}
@@ -55,9 +56,54 @@ public class world {
 		for (int i =0; i<rooms.length; i++)
 			rooms[i].draw(gl);
 		wall(gl);
+		di(gl);
 		gl.glPopMatrix();
 
 	}  
+	private void di(GL2 gl){
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		Di.enable(gl);
+		Di.bind(gl);
+		gl.glPushMatrix();
+		Float size = 2f;
+		Float z = new Float((size)*1.375);
+		Float magic =  new Float(z*1.235);
+		Float scalar = 1f;
+		gl.glTranslatef(80, size*3+2, 80);
+		gl.glRotatef(rotate, 0f, 1.0f, 0.0f);
+		rotate+=.5f;
+		//gl.glRotatef(rotateY,0f,1f,0f);
+		for(int q = 1; q<3; q++){
+			for (int i = 1; i<6; i++) {
+				gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
+				gl.glColor3f(1f,1f,1f);
+				gl.glBegin(GL2.GL_POLYGON); {
+					//please ignore the terrible naming conventions for the coordinates.
+					//z is not necessary on the z axis. Magic is z when z is not z. 
+					gl.glTexCoord2f(0, 0f); gl.glVertex3f(-size, 0, z);
+					gl.glTexCoord2f(scalar, 0f); gl.glVertex3f(size, 0, z);
+					gl.glTexCoord2f(scalar, scalar); gl.glVertex3f(0, -z, magic);
+				} gl.glEnd();
+
+
+				gl.glBegin(GL2.GL_POLYGON);
+				{	
+					gl.glTexCoord2f(0f, 0f); gl.glVertex3f(-size, 0, z);
+					gl.glTexCoord2f(scalar, 0f); gl.glVertex3f(size, 0, z);
+					gl.glTexCoord2f(scalar, scalar); gl.glVertex3f(0, size, 0);
+				}
+				gl.glEnd(); 
+				gl.glRotatef(360/5,0, 1, 0); // rotate on the Y
+
+			}
+			gl.glTranslatef(0.0f, -z, 0f);
+			gl.glRotatef(180,1, 0, 0);
+
+		}
+
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+		gl.glPopMatrix();
+	}
 	private void wall (GL2 gl){
 		float num = 5; 
 		Grass.enable(gl);

@@ -28,6 +28,7 @@ class tronRoom
 		Walls = CreateTexture(gl, "textures/tronWall.jpg");
 		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
 		Grass =  CreateTexture(gl, "textures/tron.jpg");
+		
 		c1= c2 = c3=1f; 
 		x=y=z=0f;
 	}
@@ -41,6 +42,7 @@ class tronRoom
 		Walls = CreateTexture(gl, "textures/tronWall.jpg");
 		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
 		Grass =  CreateTexture(gl, "textures/tron.jpg");
+	
 		this.c1=c1;
 		this.c2=c2; 
 		this.c3=c3; 
@@ -83,8 +85,10 @@ class tronRoom
 		gl.glPushMatrix();
 		gl.glTranslatef(x, y, z); 
 		walls(gl);
+
 		gl.glPopMatrix();
 	}
+	
 	// Grass field
 	private void walls(GL2 gl)
 	{
