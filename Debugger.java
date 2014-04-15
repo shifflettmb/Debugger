@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -90,8 +89,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
-		gl.glViewport(width/2, 0, width/2, height);	
-		gl.glOrtho(0, width/4, 0, height/4, 0.1, 9.9);
+		gl.glViewport(width/2, height/2, width/2, height);	
+		gl.glOrtho(0, width/6, 0, height/6, 0.1, 9.9);
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
