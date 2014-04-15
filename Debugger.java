@@ -96,7 +96,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
 		glu.gluLookAt(eyex, 0, eyez, eyex+1f,	-15, eyez,	0f,1f,0f); 						
-	
 		Earth.draw(gl);
 		for (int i =0; i<Creature.length; i++)
 			Creature[i].draw(gl);
@@ -207,7 +206,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			movez = new Float(eyez-stepsize*Math.sin(Math.toRadians(viewangle)));
 			//makes people fly! :D
 			//movey = new Float(eyey+stepsize*Math.cos(Math.toRadians(rotateY)));
-			if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
+			if (wallcollide(movex, movez))
 				break;
 			eyex = movex;
 			eyez = movez;	
@@ -220,7 +219,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			movex = new Float(eyex-stepsize*Math.cos(Math.toRadians(viewangle))); 
 			movez = new Float(eyez+stepsize*Math.sin(Math.toRadians(viewangle)));
 			//movey = new Float(eyey-stepsize*Math.cos(Math.toRadians(rotateY)));
-			if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
+			if (wallcollide(movex, movez))
 				break;
 			eyex = movex;
 			eyez = movez;
@@ -250,6 +249,25 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			return true;
 		else
 			return false; 
+	}
+	public boolean wallcollide(Float movex, Float movez){
+		float tranX = 20; 
+		float tranZ = 20; 
+		if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
+			return true;
+		for (int i = 0; i<8; i++) {
+		if (tooClose(movex, tranX) && (between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
+			return true; 
+		else if (tooClose(movex, tranX+40) &&(between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
+			return true;
+		else if (tooClose(movez, tranZ) && (between(movex, tranX, tranX+17f) || between (movex, tranX+23f, tranX+40f)))
+			return true;
+		else if (tooClose(movez, tranZ+40) && (between(movex, tranX, tranX+17f) || between (movex, tranX+23f, tranX+40f)))
+			return true;
+		tranX+=40;
+		if (tranX>101){	tranX=20; tranZ+=40;}
+		}
+		return false; 
 	}
 	// Ignore all of these-- but they look fun D:
 	public void keyReleased(KeyEvent e) {}
