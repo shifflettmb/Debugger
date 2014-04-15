@@ -95,7 +95,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(eyex, 0, eyez, eyex+Math.cos(Math.toRadians(viewangle)),	-15, eyez-Math.sin(Math.toRadians(viewangle)),	0f,1f,0f); 						
+		glu.gluLookAt(eyex, 0, eyez, eyex+.5,	-15, eyez+.5,	0f,1f,0f); 						
 	
 		Earth.draw(gl);
 		for (int i =0; i<Creature.length; i++)
