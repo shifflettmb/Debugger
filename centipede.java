@@ -3,7 +3,7 @@ import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
 import javax.media.opengl.glu.*;
 import java.util.*;
-public class centipede 
+public class Centipede 
 {
 	//starts on random frame at random time to help make the motion not so synchronous and creepy.
 	private Float tranX=0f, tranZ=0f, timer=0f;
@@ -11,7 +11,7 @@ public class centipede
 	private ArrayList<Segment> body = new ArrayList<Segment>(0);
 	public Float size = .5f;
 	//Motion is based on timer; Animation based on Frame. 
-	//Motion in centipede -- each body segment "follows" another. they are otherwise seperate entities. This allows the body to be fluid but contiguous. 
+	//Motion in Centipede -- each body segment "follows" another. they are otherwise seperate entities. This allows the body to be fluid but contiguous. 
 	//The legs wiggle on a sin() based rotate.  
 	private int frame = (int)(Math.random()*100); 
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
@@ -22,7 +22,7 @@ public class centipede
 
 	private GLU glu = new GLU();
 
-	public centipede(GL2 gl, GLCanvas canvas) 
+	public Centipede(GL2 gl, GLCanvas canvas) 
 	{
 		quadric = glu.gluNewQuadric();
 		glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL); // GLU_POINT, GLU_LINE, GLU_FILL, GLU_SILHOUETTE
@@ -39,7 +39,7 @@ public class centipede
 		}
 	}
 	public int bodyLength(){return (int) HP/20;}
-	public centipede(GL2 gl, GLCanvas canvas, Float X, Float Z) 
+	public Centipede(GL2 gl, GLCanvas canvas, Float X, Float Z) 
 	{
 		quadric = glu.gluNewQuadric();
 		glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL); // GLU_POINT, GLU_LINE, GLU_FILL, GLU_SILHOUETTE

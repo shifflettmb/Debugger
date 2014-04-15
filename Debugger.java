@@ -24,9 +24,9 @@ import java.awt.Robot;
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
 	private Butterfly[] Creature = new Butterfly[4];
-	private centipede[] centi = new centipede[2]; 
+	private Centipede[] centi = new Centipede[2]; 
 	private Spider[] Muffet = new Spider[1]; 
-	private world Earth; 
+	private World Earth; 
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
 	private GLU glu = new GLU();
@@ -49,14 +49,14 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glDepthFunc(GL2.GL_LEQUAL);
 		//  How nice is the drawing?
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-		Earth = new world(gl); //probably the most "I am alpha and omega" line of code ever. 
+		Earth = new World(gl); //probably the most "I am alpha and omega" line of code ever. 
 		for(int i=0; i<Creature.length; i++)
 			Creature[i] = new Butterfly(gl, canvas, 80f, 80f);
 		for(int i=0; i<Muffet.length; i++)
 			Muffet[i]=new Spider(gl, canvas, 80f, 80f); 
 
 		for(int i=0; i<centi.length; i++)
-			centi[i] = new centipede(gl, canvas, 80f, 80f);
+			centi[i] = new Centipede(gl, canvas, 80f, 80f);
 
 	}
 
@@ -256,16 +256,16 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
 			return true;
 		for (int i = 0; i<8; i++) {
-		if (tooClose(movex, tranX) && (between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
-			return true; 
-		else if (tooClose(movex, tranX+40) &&(between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
-			return true;
-		else if (tooClose(movez, tranZ) && (between(movex, tranX, tranX+17f) || between (movex, tranX+23f, tranX+40f)))
-			return true;
-		else if (tooClose(movez, tranZ+40) && (between(movex, tranX, tranX+17f) || between (movex, tranX+23f, tranX+40f)))
-			return true;
-		tranX+=40;
-		if (tranX>101){	tranX=20; tranZ+=40;}
+			if (tooClose(movex, tranX) && (between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
+				return true; 
+			else if (tooClose(movex, tranX+40) &&(between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
+				return true;
+			else if (tooClose(movez, tranZ) && (between(movex, tranX, tranX+17f) || between (movex, tranX+23f, tranX+40f)))
+				return true;
+			else if (tooClose(movez, tranZ+40) && (between(movex, tranX, tranX+17f) || between (movex, tranX+23f, tranX+40f)))
+				return true;
+			tranX+=40;
+			if (tranX>101){	tranX=20; tranZ+=40;}
 		}
 		return false; 
 	}

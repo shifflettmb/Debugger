@@ -9,13 +9,13 @@ import javax.media.opengl.glu.*;
 import java.io.*;
 
 
-public class world {
+public class World {
 	private Texture Grass, Di;
 	private GLUquadric quadric; 
 	public float x1, x2, z1, z2, rotate=0f;
 	public tronRoom rooms[] = new tronRoom[8]; 
 	private GLU glu = new GLU();
-	public world (GL2 gl) {
+	public World (GL2 gl) {
 
 		quadric = glu.gluNewQuadric();
 		glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL); // GLU_POINT, GLU_LINE, GLU_FILL, GLU_SILHOUETTE
