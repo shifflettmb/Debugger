@@ -91,11 +91,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glViewport(width/2, 0, width/2, height);	
-		gl.glOrtho(0, width/6, 0, height/6, 0.1, 9.9);
+		gl.glOrtho(0, width/4, 0, height/4, 0.1, 9.9);
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(eyex, 0, eyez, eyex+.5,	-15, eyez+.5,	0f,1f,0f); 						
+		glu.gluLookAt(eyex, 0, eyez, eyex+1f,	-15, eyez,	0f,1f,0f); 						
 	
 		Earth.draw(gl);
 		for (int i =0; i<Creature.length; i++)
