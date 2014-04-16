@@ -94,7 +94,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glViewport(width/2, height/2, width/2, height);	
-		gl.glOrtho(0, width/6, 0, height/6, 0.1, 9.9);
+		gl.glOrtho(0, width/6, 0, height/6, 0, 8);
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
@@ -210,7 +210,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			}
 			if (BETAmode)
 				Creature[3].paused=!Creature[3].paused;
-
 			break;
 		case KeyEvent.VK_W:
 			movex = new Float(eyex+stepsize*Math.cos(Math.toRadians(viewangle))); 
