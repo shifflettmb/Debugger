@@ -19,7 +19,7 @@ public class Butterfly
 	private Float buttSpeed =.05f; // butterfly speed
 	private boolean move = true; 
 	public boolean paused = false; 
-
+	
 	private GLU glu = new GLU();
 
 	public Butterfly(GL2 gl, GLCanvas canvas) 
@@ -28,6 +28,7 @@ public class Butterfly
 		glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL); // GLU_POINT, GLU_LINE, GLU_FILL, GLU_SILHOUETTE
 		glu.gluQuadricNormals  (quadric, GLU.GLU_NONE); // GLU_NONE, GLU_FLAT, or GLU_SMOOTH
 		glu.gluQuadricTexture  (quadric, false);        // use true to generate texture coordinates
+		
 		tranX=0f; 
 		tranZ=0f; 
 
@@ -149,6 +150,7 @@ public class Butterfly
 			gl.glPopMatrix();
 		}
 		//wings		
+		
 		for (int j = -1; j<2; j+=2){
 			for (int i = -1; i<2; i+=2){
 				gl.glPushMatrix();
@@ -172,6 +174,7 @@ public class Butterfly
 			gl.glTranslatef((size), 0, size);
 			gl.glRotatef(180, 0,1,0);
 		}
+	
 	}
 
 }

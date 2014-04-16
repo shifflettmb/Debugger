@@ -14,7 +14,8 @@ import java.io.*;
 class tronRoom
 {
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
-	private Texture Grass, Walls, Ceil;
+	public Texture Grass, Walls, Ceil;
+	public static Texture Wings;
 	private Float c1, c2, c3, x, y, z; 
 	private GLU glu = new GLU();
 
@@ -28,7 +29,6 @@ class tronRoom
 		Walls = CreateTexture(gl, "textures/tronWall.jpg");
 		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
 		Grass =  CreateTexture(gl, "textures/tron.jpg");
-		
 		c1= c2 = c3=1f; 
 		x=y=z=0f;
 	}
