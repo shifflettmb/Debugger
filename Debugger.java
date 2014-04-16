@@ -2,11 +2,14 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
 import javax.media.opengl.glu.*;
+
 import com.jogamp.opengl.util.*;
+
 import java.awt.Robot;
 //Controls: WASD to move, arrow keys to pan camera. IE: 'W' moves you forward, 'UpArrow' makes you look up. 
 // 			**You may also use your mouse to pan the camera around. **
@@ -23,6 +26,7 @@ import java.awt.Robot;
 //  but to be honest it's so funny I wanted to keep it. 
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
+	
 	private Butterfly[] Creature = new Butterfly[4];
 	private Centipede[] centi = new Centipede[2]; 
 	private Spider[] Muffet = new Spider[1]; 
@@ -79,7 +83,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				eyey, 
 				eyez-Math.sin(Math.toRadians(viewangle)),	
 				0f,1f,0f); 						// the "up" direction
-
+	
 		Earth.draw(gl);
 		for (int i =0; i<Creature.length; i++)
 			Creature[i].draw(gl);
@@ -95,7 +99,15 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(eyex, 0, eyez, eyex+1f,	-15, eyez,	0f,1f,0f); 						
+		glu.gluLookAt(eyex-80, 0, eyez-80, 
+				eyex+1f-80, -15, eyez-80,
+					0f,1f,0f); 	
+		GLUquadric quadric = glu.gluNewQuadric(); 
+		gl.glPushMatrix();
+		gl.glTranslatef(eyex, 5, eyez);
+		gl.glColor3f(1,0,0); 
+		glu.gluSphere(quadric, 1f, 5, 5);
+		gl.glPopMatrix();
 		Earth.draw(gl);
 		for (int i =0; i<Creature.length; i++)
 			Creature[i].draw(gl);
@@ -253,7 +265,9 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	public boolean wallcollide(Float movex, Float movez){
 		float tranX = 20; 
 		float tranZ = 20; 
-		if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
+		if (tooClose(movex,80f, 3f) && tooClose(movez, 80f, 3f))
+			return true;
+		else if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
 			return true;
 		for (int i = 0; i<8; i++) {
 			if (tooClose(movex, tranX) && (between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
