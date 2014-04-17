@@ -72,7 +72,7 @@ public class Spider
 		gl.glPopMatrix();
 		move(limit);
 	}
-	//movement code
+	//movement code, same as butterfly down to the letter. 
 	private void move(int limit){
 		spidSpeed = (float)HP/2000;
 		limit = 150;
@@ -82,12 +82,15 @@ public class Spider
 			spidSpeed=0f;
 		if (paused)
 			return;
-		//can make them stationary
 		timer++;
 		if (move){
 			Float movex = new Float(tranX+spidSpeed*Math.cos(Math.toRadians(rotateY))); 
 			Float movez = new Float(tranZ-spidSpeed*Math.sin(Math.toRadians(rotateY)));	
-			tranX = movex; tranZ = movez; 
+			//collision code. 
+			if (!Debugger.wallcollide(movex, movez)) {
+				tranX = movex; tranZ = movez; 
+			} else 
+				rotateY+=180; 
 		}
 		if (frame%10==0 && move)
 			rotateY = rotateY + (new Float(Math.random()*40) -20f); 
@@ -98,16 +101,9 @@ public class Spider
 		}
 		if (frame > 100)
 			frame = 0;
-		//this helps limit motion to the range given. Remove if unwanted. 
-		//note that it's not a "hard" limit and they may wander, but will continuously "search" for the area.
-		//when they get back, their motion becomes less sporatic.
-		if ((tranX<10 || tranX > limit || tranZ<10 || tranZ > limit) && move)
-			rotateY+=180;
 	}
 	private void spid(GL2 gl){
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
-		//5-size to ensure the height of 5 thing.
-
 		gl.glTranslatef(tranX, size+legsize, tranZ);
 		gl.glRotatef(rotateY+90, 0, 1, 0);
 		//body

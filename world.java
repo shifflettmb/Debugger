@@ -55,7 +55,9 @@ public class World {
 		grass(gl); 
 		for (int i =0; i<rooms.length; i++)
 			rooms[i].draw(gl);
+		//Outter wall 
 		wall(gl);
+		//Di
 		di(gl);
 		gl.glPopMatrix();
 
@@ -163,7 +165,6 @@ public class World {
 		gl.glColor3f(0, 1f, 0);
 		gl.glTexCoord2f(num, 0); gl.glVertex3f(x2, -0.01f,  z1);
 		gl.glEnd();
-
 		gl.glDisable(GL2.GL_TEXTURE_2D);
 		gl.glPopMatrix();
 

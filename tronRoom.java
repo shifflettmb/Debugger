@@ -19,19 +19,8 @@ class tronRoom
 	private Float c1, c2, c3, x, y, z; 
 	private GLU glu = new GLU();
 
-	public tronRoom(GL2 gl) 
-	{
-		quadric = glu.gluNewQuadric();
-		glu.gluQuadricDrawStyle(quadric, GLU.GLU_FILL); // GLU_POINT, GLU_LINE, GLU_FILL, GLU_SILHOUETTE
-		glu.gluQuadricNormals  (quadric, GLU.GLU_NONE); // GLU_NONE, GLU_FLAT, or GLU_SMOOTH
-		glu.gluQuadricTexture  (quadric, false);        // use true to generate texture coordinates
-		gl.glEnable(GL2.GL_TEXTURE_2D);
-		Walls = CreateTexture(gl, "textures/tronWall.jpg");
-		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
-		Grass =  CreateTexture(gl, "textures/tron.jpg");
-		c1= c2 = c3=1f; 
-		x=y=z=0f;
-	}
+	// GL, x y z coordinates, then RGB values. 
+	//(marks the front, left corner. So a room from 0,0,0 to 40,0,40 would have the coordinates 0,0,0).
 	public tronRoom(GL2 gl, Float x, Float y, Float z, Float c1, Float c2, Float c3) 
 	{
 		quadric = glu.gluNewQuadric();
@@ -42,54 +31,39 @@ class tronRoom
 		Walls = CreateTexture(gl, "textures/tronWall.jpg");
 		Ceil = CreateTexture(gl, "textures/tronCeil.jpg");
 		Grass =  CreateTexture(gl, "textures/tron.jpg");
-	
-		this.c1=c1;
-		this.c2=c2; 
-		this.c3=c3; 
-		this.x=x; 
-		this.y=y;
-		this.z=z;
+		//Storing the colors for the room.
+		this.c1=c1;	this.c2=c2; this.c3=c3;	
+		//Storing the coordinates of the room. 
+		this.x=x; 	this.y=y;	this.z=z;
 	}
-	//Creates texture information from a file - assumes filename has proper 3 character graphic extension
-	//			e.g.  png, gif, jpg (NOT jpeg!!)	
+	//Ame's CreateTexture method-- don't touch. I don't know how it works. 	
 	private Texture CreateTexture(GL2 gl, String filename)
 	{
 		Texture tex = null;
-		//String type = filename.substring(filename.lastIndexOf('.')+1);
-
-		try {
-			tex = TextureIO.newTexture(new File(filename), false);
-		}
-		catch (IOException exc) {
-			exc.printStackTrace();
-			System.exit(1);
-		}
+		try {tex = TextureIO.newTexture(new File(filename), false);}catch (IOException exc) {exc.printStackTrace();System.exit(1);}
 		//  Set parameters for the texture
 		gl.glTexParameterf( GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
 		gl.glTexParameterf( GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-
 		gl.glTexParameterf( GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_REPEAT);
 		gl.glTexParameterf( GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_REPEAT);
-
-		//		gl.glTexEnvi(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
-
 		return tex;
 	}	
 
-	// Draw everything
+	// Draw everything!
 	public void draw(GL2 gl)
 	{
 
-		//stops the grass and walls from being tinted.
+		//Choose your color from when you constructed it. 
 		gl.glColor3f(c1,c2,c3);
 		gl.glPushMatrix();
-		gl.glTranslatef(x, y, z); 
+		//move to that coordinate 
+		gl.glTranslatef(x, y, z);
+		//put walls/ceiling/floor there. 
 		walls(gl);
-
 		gl.glPopMatrix();
 	}
 	
-	// Grass field
+	// Makes the walls, ceiling, and floor of the room... so basically the whole room unless we put objects in them. 
 	private void walls(GL2 gl)
 	{
 		float bx = 1f, by = 1f;

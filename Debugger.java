@@ -25,9 +25,11 @@ import java.awt.Robot;
 //  but to be honest it's so funny I wanted to keep it. 
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
-	
-	private Butterfly[] Creature = new Butterfly[4];
+	// 
+	private Butterfly[] Butterfly = new Butterfly[4];
+	//centi = centipedes
 	private Centipede[] centi = new Centipede[2]; 
+	// Little miss muffet= spiders. 
 	private Spider[] Muffet = new Spider[1]; 
 	private World Earth; 
 	private Float rotateY=-95f;
@@ -52,12 +54,17 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glDepthFunc(GL2.GL_LEQUAL);
 		//  How nice is the drawing?
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-		Earth = new World(gl); //probably the most "I am alpha and omega" line of code ever. 
-		for(int i=0; i<Creature.length; i++)
-			Creature[i] = new Butterfly(gl, canvas, 80f, 80f);
+		Earth = new World(gl); //probably the most "I am alpha and omega" line of code ever.
+		
+		
+		//For the instantiations below, use the parameters (gl, canvas, X, Z)
+		//instantiating all butterflies
+		for(int i=0; i<Butterfly.length; i++)
+			Butterfly[i] = new Butterfly(gl, canvas, 20f*i, 20f*i);
+		//instantiating all Spiders
 		for(int i=0; i<Muffet.length; i++)
-			Muffet[i]=new Spider(gl, canvas, 80f, 80f); 
-
+			Muffet[i]=new Spider(gl, canvas, 100f, 40f); 
+		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
 			centi[i] = new Centipede(gl, canvas, 80f, 80f);
 
@@ -83,14 +90,16 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				eyez-Math.sin(Math.toRadians(viewangle)),	
 				0f,1f,0f); 						// the "up" direction
 	
+		//drawing all the perspective objects
 		Earth.draw(gl);
-		for (int i =0; i<Creature.length; i++)
-			Creature[i].draw(gl);
+		for (int i =0; i<Butterfly.length; i++)
+			Butterfly[i].draw(gl);
 		for (int i =0; i<Muffet.length; i++)
 			Muffet[i].draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
-
+		
+		
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glViewport(width/2, 0, width/2, height);	
@@ -102,14 +111,16 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				eyex+1f-80, -15, eyez-80,
 					0f,1f,0f); 	
 		GLUquadric quadric = glu.gluNewQuadric(); 
+		//the "You are here" dot on the minimap. 
 		gl.glPushMatrix();
 		gl.glTranslatef(eyex, 5, eyez);
 		gl.glColor3f(1,0,0); 
 		glu.gluSphere(quadric, 1f, 5, 5);
 		gl.glPopMatrix();
+		//drawing all the ortho objects
 		Earth.draw(gl);
-		for (int i =0; i<Creature.length; i++)
-			Creature[i].draw(gl);
+		for (int i =0; i<Butterfly.length; i++)
+			Butterfly[i].draw(gl);
 		for (int i =0; i<Muffet.length; i++)
 			Muffet[i].draw(gl);
 		for(int i=0; i<centi.length; i++)
@@ -143,6 +154,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	public static void main(String args[])
 	{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		//Screen dimension variables
 		width = (int)screenSize.getWidth();
 		height = (int)screenSize.getHeight();
 		System.setProperty("sun.awt.noerasebackground", "true"); // sometimes necessary to avoid erasing the finished window
@@ -185,10 +197,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Float movex, movez; 
 		switch (key)
 		{
+		//When they hit minus, demo the bugs dying (remove later)
 		case KeyEvent.VK_MINUS:
 			if (centi[0].HP>0)
 				centi[0].HP--;  
-			Creature[0].HP=0;
+			Butterfly[0].HP=0;
 			Muffet[0].HP--;
 			break;
 		case KeyEvent.VK_RIGHT:
@@ -201,34 +214,32 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			rotateY+=5;
 			System.out.println(rotateY);
 			break;
-		case KeyEvent.VK_SHIFT: // allows you to "pause" as well as release the cursor. For testing purposes only. 
+		case KeyEvent.VK_SHIFT: // allows you to "pause" animations. For testing purposes only. 
 			paused=!paused;
-			for (int i=0; i <Creature.length; i++){
-				Creature[i].paused=!Creature[i].paused;
+			for (int i=0; i <Butterfly.length; i++){
+				Butterfly[i].paused=!Butterfly[i].paused;
 				centi[i].paused = paused;
 				Muffet[i].paused = paused;
 			}
 			if (BETAmode)
-				Creature[3].paused=!Creature[3].paused;
+				Butterfly[3].paused=!Butterfly[3].paused;
 			break;
 		case KeyEvent.VK_W:
 			movex = new Float(eyex+stepsize*Math.cos(Math.toRadians(viewangle))); 
 			movez = new Float(eyez-stepsize*Math.sin(Math.toRadians(viewangle)));
-			//makes people fly! :D
-			//movey = new Float(eyey+stepsize*Math.cos(Math.toRadians(rotateY)));
+			//if you're trying to step into a wall, don't move forward. 
 			if (wallcollide(movex, movez))
 				break;
 			eyex = movex;
 			eyez = movez;	
 			break;
-		case KeyEvent.VK_DOWN:	
+		case KeyEvent.VK_DOWN:	//look down 
 			rotateY-=5;
 			//System.out.println(rotateY);
 			break; 
 		case KeyEvent.VK_S:	
 			movex = new Float(eyex-stepsize*Math.cos(Math.toRadians(viewangle))); 
 			movez = new Float(eyez+stepsize*Math.sin(Math.toRadians(viewangle)));
-			//movey = new Float(eyey-stepsize*Math.cos(Math.toRadians(rotateY)));
 			if (wallcollide(movex, movez))
 				break;
 			eyex = movex;
@@ -240,33 +251,41 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	}
 	// if your step would land you within 1 unit of the wall (.5 on either side), you're too close. 
-	boolean tooClose(Float x, Float coord){
+	public static boolean tooClose(Float x, Float coord){
 		if (Math.abs(x-coord)<1)
 			return true;
 		else
 			return false; 
 	}
-	// same as above but allows for varying buffer zone. 
-	boolean tooClose(Float x, Float coord, Float buffer){
+	// same as above but allows for varying buffer zone, rather  than the preset 1. Pass it "stepsize" if you want to be 
+	// "if your step lands you less than 1 step away from the wall"
+	public static boolean tooClose(Float x, Float coord, Float buffer){
 		if (Math.abs(x-coord)<buffer)
 			return true;
 		else
 			return false; 
 	}
 	// lets you see if you'll land on a point in a given line (great for our semi-2D walls. 
-	boolean between(Float x, Float coord1, Float coord2) { 
+	public static boolean between(Float x, Float coord1, Float coord2) { 
 		if (x >= coord1 && x <= coord2)
 			return true;
 		else
 			return false; 
 	}
-	public boolean wallcollide(Float movex, Float movez){
+	
+	//Answers the question, are you about to walk into a wall? 
+	public static boolean wallcollide(Float movex, Float movez){
 		float tranX = 20; 
 		float tranZ = 20; 
+		//this is the collision for the dice. Basically creates a 3xinfinityx3 rectangular prism that cannot be walked into. 
+		// for example, to not be able to walk on a bug, it would be something like 
+		//if (tooClose(movex, bug.getPos[0], bug.size) || tooClose(movez, bug.getPos[2], bug.size)) return true. 
 		if (tooClose(movex,80f, 3f) && tooClose(movez, 80f, 3f))
 			return true;
+		//this is the collision for the outter wall
 		else if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
 			return true;
+		//the 8 rooms. 
 		for (int i = 0; i<8; i++) {
 			if (tooClose(movex, tranX) && (between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
 				return true; 
@@ -292,20 +311,14 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	public void mouseReleased(MouseEvent key){}
 	public void mousePressed(MouseEvent mouse){}
 	public void mouseDragged(MouseEvent e) {}
+	// MOUSE CONTROLS-- Just don't touch them. Believe me. It is irreversible hell if you do. 
 	public void mouseMoved(MouseEvent e) {
 		// Update mouse position
 		int x=e.getX(), y = e.getY();
+		//mouse sensitivity. Do not set to 10. I know it's tempting but that will make it wonky. 
 		int variance = 12;
-		if (x<300-variance) {
-			viewangle+=pan;
-		} else if (x > 300+variance) { 
-			viewangle-=pan;
-		} 
-		if (y>300+variance) {
-			rotateY-=pan; 
-		} else if (y<300-variance) {
-			rotateY+=pan;
-		}
+		if (x<300-variance) { viewangle+=pan; } else if (x > 300+variance) { viewangle-=pan; } 
+		if (y>300+variance) { rotateY-=pan; } else if (y<300-variance) { rotateY+=pan; 	}
 		droid.mouseMove(300, 300); 
 	}
 

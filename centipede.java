@@ -2,6 +2,7 @@
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
 import javax.media.opengl.glu.*;
+
 import java.util.*;
 public class Centipede 
 {
@@ -78,17 +79,25 @@ public class Centipede
 		timer++;	int i =0; 
 		if (move && timer % 3==0){
 
-			for (i = 0; i<HP/20; i++)
+			for (i = 0; i<HP/20; i++) // Every body segment except the "head" is moved up. IE: Body segment 3 is placed at body segment 2's position, and so on.
 			{
 				body.get(i).x=new Float(body.get(i+1).x +-size*Math.cos(Math.toRadians(body.get(i+1).rotateY))); 
 				body.get(i).y=new Float(body.get(i+1).y); 
 				body.get(i).z=new Float(body.get(i+1).z-(-size)*Math.sin(Math.toRadians(body.get(i+1).rotateY)));
 				body.get(i).rotateY=new Float(body.get(i+1).rotateY);	
 			}
-
+			//the "head" is now moved to a new coordinate. 
 			Float movex = new Float(body.get(i).x+(centSpeed*.9f)*Math.cos(Math.toRadians(body.get(i).rotateY))); 
 			Float movez = new Float(body.get(i).z-(centSpeed*.9f)*Math.sin(Math.toRadians(body.get(i).rotateY)));	
-			body.get(i).x = movex; body.get(i).z = movez; 
+			//collision code, very similar to butterfly's except only applies to head. 
+			if (!Debugger.wallcollide(movex, movez)) {
+				body.get(i).x = movex; body.get(i).z = movez; 
+			} else {
+				body.get(i).rotateY+=90;
+				movex = new Float(body.get(i).x+centSpeed*Math.cos(Math.toRadians(body.get(i).rotateY))); 
+				movez = new Float(body.get(i).z-centSpeed*Math.sin(Math.toRadians(body.get(i).rotateY)));	
+				body.get(i).x = movex; body.get(i).z = movez; 
+			}
 		}
 		if (frame%3==0 && move)
 			body.get(i).rotateY = body.get(i).rotateY + (new Float(Math.random()*40) -20f); 
@@ -99,22 +108,15 @@ public class Centipede
 		}
 		if (frame > 100)
 			frame = 0;
-		//this helps limit motion to the range given. Remove if unwanted. 
-		//note that it's not a "hard" limit and they may wander, but will continuously "search" for the area.
-		//when they get back, their motion becomes less sporatic.
-		if ((body.get(i).x<10 || body.get(i).x > limit || body.get(i).z<10 || body.get(i).z > limit) && move) {
-			body.get(i).rotateY+=90;
-			Float movex = new Float(body.get(i).x+centSpeed*Math.cos(Math.toRadians(body.get(i).rotateY))); 
-			Float movez = new Float(body.get(i).z-centSpeed*Math.sin(Math.toRadians(body.get(i).rotateY)));	
-			body.get(i).x = movex; body.get(i).z = movez; 
-		}
+
+
 	}
 
 	private void cent(GL2 gl){
 		gl.glPushMatrix();
 		float color=.5f;
 		gl.glPolygonMode(GL.GL_FRONT_AND_BACK, GL2.GL_FILL);
-		
+
 		for (int i = 0; i<HP/20-1; i++)
 		{
 			gl.glPushMatrix();
