@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
 import javax.media.opengl.glu.*;
+import com.jogamp.opengl.util.gl2.GLUT;
 
 import com.jogamp.opengl.util.*;
 
@@ -42,6 +43,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	private static JFrame frame;
 	public static int width;
 	public static int height;
+	private static long startTime = System.currentTimeMillis();
+	
 	public void init(GLAutoDrawable drawable) 
 	{
 		GL2 gl = drawable.getGL().getGL2();
@@ -78,6 +81,47 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glLoadIdentity();
 		int msize = 160*2;// MAP SIZE
 
+//Scoreboard
+		gl.glMatrixMode(GL2.GL_PROJECTION);
+		gl.glLoadIdentity();
+		gl.glViewport(width-msize, 0, msize, msize);	
+		gl.glOrtho(msize/2, height/2, msize/2, height, -1, 12);
+		gl.glColor3f(255.0f, 255.0f, 255.0f);
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
+		gl.glLoadIdentity();
+
+		int x = msize/2 + 10;
+		int y =  msize;
+		int creatureCount = 0;
+		
+		gl.glRasterPos2i(x, y);
+		for(int i=0; i<Butterfly.length; i++) {
+			if (Butterfly[i].HP > 0) {creatureCount++;}
+		}
+		glut.glutBitmapString(5, "Butterflies Remaining: " + creatureCount);
+		
+		y += 55; creatureCount = 0;
+		gl.glRasterPos2i(x, y);
+		for(int i=0; i<centi.length; i++) {
+			if (centi[i].HP > 0) {creatureCount++;}
+		}
+		glut.glutBitmapString(5, "Centipedes Remaining: " + creatureCount);
+		
+		y += 55; creatureCount = 0;
+		gl.glRasterPos2i(x, y);
+		for(int i=0; i<Muffet.length; i++) {
+			if (Muffet[i].HP > 0) {creatureCount++;}
+		}
+		glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
+		
+		y += 55;		
+		long currentTime = System.currentTimeMillis();
+		String timeRunning = (((currentTime - startTime) / (1000 * 60)) % 60) + ":" + 
+				(((currentTime - startTime) / 1000) % 60);
+		gl.glRasterPos2i(x, y);
+		glut.glutBitmapString(5, "Debugging Time: " + timeRunning);
+
+		//Map
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glViewport(0, 0, width-msize, height); 
@@ -100,6 +144,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			centi[i].draw(gl);
 		
 		
+		//Mini-map
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
 		// msize is map size and is defined at the beginning.
