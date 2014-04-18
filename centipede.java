@@ -6,23 +6,20 @@ import javax.media.opengl.glu.*;
 import java.util.*;
 public class Centipede 
 {
-	//starts on random frame at random time to help make the motion not so synchronous and creepy.
-	private Float tranX=0f, tranZ=0f, timer=0f;
-	public int HP = 100; 
-	private ArrayList<Segment> body = new ArrayList<Segment>(0);
-	public Float size = .5f;
 	//Motion is based on timer; Animation based on Frame. 
 	//Motion in Centipede -- each body segment "follows" another. they are otherwise seperate entities. This allows the body to be fluid but contiguous. 
 	//The legs wiggle on a sin() based rotate.  
+	//starts on random frame at random time to help make the motion not so synchronous and creepy.
+	private Float tranX=0f, tranZ=0f, timer=0f, size = .5f, centSpeed =.05f; 
+	public int HP = 100; 
+	private ArrayList<Segment> body = new ArrayList<Segment>(0);
+	
 	private int frame = (int)(Math.random()*100); 
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
-	public Float speed = .5f; // walk speed of CAMERA not mobs. 
-	private Float centSpeed =.05f; 
-	private boolean move = true; 
-	public boolean paused = false; 
-
+	public boolean paused = false, move = true;  
 	private GLU glu = new GLU();
 
+	
 	public Centipede(GL2 gl, GLCanvas canvas) 
 	{
 		quadric = glu.gluNewQuadric();

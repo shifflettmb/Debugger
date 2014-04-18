@@ -109,7 +109,7 @@ public class Spider
 		//body
 		gl.glPushMatrix();
 		if (HP>0)
-		{//head
+		{	//head
 			gl.glColor3f(.2f,.2f,.2f); 
 			gl.glTranslatef(size/2f, 0, size/1.5f);
 			glu.gluSphere(quadric, size, 8, 8);

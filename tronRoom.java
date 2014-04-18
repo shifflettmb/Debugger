@@ -15,7 +15,6 @@ class tronRoom
 {
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
 	public Texture Grass, Walls, Ceil;
-	public static Texture Wings;
 	private Float c1, c2, c3, x, y, z; 
 	private GLU glu = new GLU();
 

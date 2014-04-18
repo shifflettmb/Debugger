@@ -60,13 +60,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//For the instantiations below, use the parameters (gl, canvas, X, Z)
 		//instantiating all butterflies
 		for(int i=0; i<Butterfly.length; i++)
-			Butterfly[i] = new Butterfly(gl, canvas, 20f*i, 20f*i);
+			Butterfly[i] = new Butterfly(gl, canvas, 21f*i, 21f*i);
 		//instantiating all Spiders
 		for(int i=0; i<Muffet.length; i++)
-			Muffet[i]=new Spider(gl, canvas, 100f, 40f); 
+			Muffet[i]=new Spider(gl, canvas, 80f, 40f); 
 		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
-			centi[i] = new Centipede(gl, canvas, 80f, 80f);
+			centi[i] = new Centipede(gl, canvas, 81f, 80f);
 
 	}
 
@@ -76,11 +76,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		GL2 gl  = drawable.getGL().getGL2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
-
+		int msize = 160*2;// MAP SIZE
 
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
-		gl.glViewport(0, 0, width/2, height); 
+		gl.glViewport(0, 0, width-msize, height); 
 		glu.gluPerspective(90., 1., .5, 180.); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
@@ -102,8 +102,9 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
-		gl.glViewport(width/2, 0, width/2, height);	
-		gl.glOrtho(0, width/8, 0, height/8, 0, 9.9);
+		// msize is map size and is defined at the beginning.
+		gl.glViewport(width-msize, height-msize, msize, msize);	
+		gl.glOrtho(0, msize/2, 0, msize/2, 1, 12);
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
