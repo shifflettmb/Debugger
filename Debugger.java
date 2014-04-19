@@ -36,6 +36,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
 	private GLU glu = new GLU();
+	private static GLUT glut = new GLUT();
 	private static Robot droid;
 	private float viewangle=0f, stepsize=.5f, pan=2f;
 	public float eyex=10f, eyey=4f, eyez=10f; 
