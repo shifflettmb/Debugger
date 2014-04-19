@@ -298,6 +298,40 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	}
 	
+	//Determine if a monster has been caught
+	//Monster has been "caught" if it is within 2 units of the current
+	//camera position
+
+	public boolean caughtBug(Float x, Float z) {
+		
+		Float[] coord;
+		Float[][] centiCoord;
+		
+		for (int i = 0; i < butterfly.length-1; i++) {
+			coord = butterfly[i].getPos();
+			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[21]) < 2) {
+				return true;
+			}
+		}
+		
+		for (int i = 0; i < centi.length-1; i++) {
+			centiCoord = centi[i].getPos();
+			for (int j = 0; j < centi[i].bodyLength()-1; j++){
+				if (Math.abs(x - centiCoord[j][0]) < 2 && Math.abs(z - centiCoord[j][2]) < 2)
+					return true;
+			}
+		}
+		
+		for (int i = 0; i < muffet.length-1; i++) {
+			coord = muffet[i].getPos();
+			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 
 	// if your step would land you within 1 unit of the wall (.5 on either side), you're too close. 
 	public static boolean tooClose(Float x, Float coord){
