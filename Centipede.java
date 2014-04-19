@@ -20,7 +20,7 @@ public class Centipede
 	private GLU glu = new GLU();
 
 	public Float[][] getPos(){
-		Float[][] temp = new Float[3][HP/20]; 
+		Float[][] temp = new Float[HP/20][3]; 
 		for (int i = 0; i <= HP/20; i++){
 			temp[i][0]=body.get(0).x;
 			temp[i][1]=body.get(0).y; 
