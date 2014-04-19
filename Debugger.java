@@ -27,11 +27,11 @@ import java.awt.Robot;
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
 	// 
-	private Butterfly[] Butterfly = new Butterfly[4];
+	private Butterfly[] butterfly = new Butterfly[4];
 	//centi = centipedes
 	private Centipede[] centi = new Centipede[2]; 
 	// Little miss muffet= spiders. 
-	private Spider[] Muffet = new Spider[1]; 
+	private Spider[] muffet = new Spider[1]; 
 	private World Earth; 
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
@@ -63,11 +63,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		//For the instantiations below, use the parameters (gl, canvas, X, Z)
 		//instantiating all butterflies
-		for(int i=0; i<Butterfly.length; i++)
-			Butterfly[i] = new Butterfly(gl, canvas, 21f*i, 21f*i);
+		for(int i=0; i<butterfly.length; i++)
+			butterfly[i] = new Butterfly(gl, canvas, 21f*i, 21f*i);
 		//instantiating all Spiders
-		for(int i=0; i<Muffet.length; i++)
-			Muffet[i]=new Spider(gl, canvas, 80f, 40f); 
+		for(int i=0; i<muffet.length; i++)
+			muffet[i]=new Spider(gl, canvas, 80f, 40f); 
 		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
 			centi[i] = new Centipede(gl, canvas, 81f, 80f);
@@ -96,8 +96,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		int creatureCount = 0;
 		
 		gl.glRasterPos2i(x, y);
-		for(int i=0; i<Butterfly.length; i++) {
-			if (Butterfly[i].HP > 0) {creatureCount++;}
+		for(int i=0; i<butterfly.length; i++) {
+			if (butterfly[i].HP > 0) {creatureCount++;}
 		}
 		glut.glutBitmapString(5, "Butterflies Remaining: " + creatureCount);
 		
@@ -110,8 +110,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		y += 55; creatureCount = 0;
 		gl.glRasterPos2i(x, y);
-		for(int i=0; i<Muffet.length; i++) {
-			if (Muffet[i].HP > 0) {creatureCount++;}
+		for(int i=0; i<muffet.length; i++) {
+			if (muffet[i].HP > 0) {creatureCount++;}
 		}
 		glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
 		
@@ -137,10 +137,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	
 		//drawing all the perspective objects
 		Earth.draw(gl);
-		for (int i =0; i<Butterfly.length; i++)
-			Butterfly[i].draw(gl);
-		for (int i =0; i<Muffet.length; i++)
-			Muffet[i].draw(gl);
+		for (int i =0; i<butterfly.length; i++)
+			butterfly[i].draw(gl);
+		for (int i =0; i<muffet.length; i++)
+			muffet[i].draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
 		
@@ -166,10 +166,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glPopMatrix();
 		//drawing all the ortho objects
 		Earth.draw(gl);
-		for (int i =0; i<Butterfly.length; i++)
-			Butterfly[i].draw(gl);
-		for (int i =0; i<Muffet.length; i++)
-			Muffet[i].draw(gl);
+		for (int i = 0; i< butterfly.length; i++)
+			butterfly[i].draw(gl);
+		for (int i = 0; i<muffet.length; i++)
+			muffet[i].draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
 
@@ -248,8 +248,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		case KeyEvent.VK_MINUS:
 			if (centi[0].HP>0)
 				centi[0].HP--;  
-			Butterfly[0].HP=0;
-			Muffet[0].HP--;
+			butterfly[0].HP=0;
+			muffet[0].HP--;
 			break;
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:	
@@ -263,13 +263,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			break;
 		case KeyEvent.VK_SHIFT: // allows you to "pause" animations. For testing purposes only. 
 			paused=!paused;
-			for (int i=0; i <Butterfly.length; i++){
-				Butterfly[i].paused=!Butterfly[i].paused;
+			for (int i=0; i <butterfly.length; i++){
+				butterfly[i].paused=!butterfly[i].paused;
 				centi[i].paused = paused;
-				Muffet[i].paused = paused;
+				muffet[i].paused = paused;
 			}
 			if (BETAmode)
-				Butterfly[3].paused=!Butterfly[3].paused;
+				butterfly[3].paused=!butterfly[3].paused;
 			break;
 		case KeyEvent.VK_W:
 			movex = new Float(eyex+stepsize*Math.cos(Math.toRadians(viewangle))); 
