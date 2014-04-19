@@ -298,7 +298,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	}
 	
-//Determine if a monster has been caught
+	//Determine if a monster has been caught
 	//Monster has been "caught" if it is within 2 units of the current
 	//camera position
 
