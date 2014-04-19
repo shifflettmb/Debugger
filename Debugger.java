@@ -308,21 +308,21 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		for (int i = 0; i < butterfly.length; i++) {
 			coord = butterfly[i].getPos();
-			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[1]) < 2) {
+			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
 				return true;
 			}
 		}
 		
 		for (int i = 0; i < centi.length; i++) {
 			coord = centi[i].getPos();
-			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[1]) < 2) {
+			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
 				return true;
 			}
 		}
 		
 		for (int i = 0; i < muffet.length; i++) {
 			coord = muffet[i].getPos();
-			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[1]) < 2) {
+			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
 				return true;
 			}
 		}

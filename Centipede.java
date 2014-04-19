@@ -13,13 +13,21 @@ public class Centipede
 	private Float tranX=0f, tranZ=0f, timer=0f, size = .5f, centSpeed =.05f; 
 	public int HP = 100; 
 	private ArrayList<Segment> body = new ArrayList<Segment>(0);
-	
+
 	private int frame = (int)(Math.random()*100); 
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
 	public boolean paused = false, move = true;  
 	private GLU glu = new GLU();
 
-	
+	public Float[][] getPos(){
+		Float[][] temp = new Float[3][HP/20]; 
+		for (int i = 0; i <= HP/20; i++){
+			temp[i][0]=body.get(0).x;
+			temp[i][1]=body.get(0).y; 
+			temp[i][2]=body.get(0).z;
+		}
+		return temp;
+	}
 	public Centipede(GL2 gl, GLCanvas canvas) 
 	{
 		quadric = glu.gluNewQuadric();
