@@ -298,7 +298,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	}
 	
-	//Determine if a monster has been caught
+//Determine if a monster has been caught
 	//Monster has been "caught" if it is within 2 units of the current
 	//camera position
 
@@ -309,7 +309,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		
 		for (int i = 0; i < butterfly.length-1; i++) {
 			coord = butterfly[i].getPos();
-			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[21]) < 2) {
+			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
 				return true;
 			}
 		}
