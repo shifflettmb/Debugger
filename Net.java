@@ -25,8 +25,8 @@ public class Net {
 	public boolean inProgress = false; //swinging inProgress
 	public boolean visible = true; //for possibly switching weapons 
 	private GLUquadric quadric;
-   // private GLCanvas canvas;
-    private GLU glu = new GLU();
+   	// private GLCanvas canvas;
+    	private GLU glu = new GLU();
     
 	public Net(GL2 gl, GLCanvas canvas) 
 	{
