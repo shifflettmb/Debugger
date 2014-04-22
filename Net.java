@@ -105,7 +105,7 @@ public class Net {
 		if(visible) //current weapon
 		{
 			gl.glPushMatrix();	
-			gl.glTranslatef(10, 3f, 10);
+			gl.glTranslatef(netX, 3f, netZ);
 			gl.glRotatef(rotateY, 0, 1, 0);
 			if(swing)
 			{
