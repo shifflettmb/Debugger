@@ -1,4 +1,4 @@
-Enter file contents here/************************************************************************************
+/************************************************************************************
  							Class Name - Net
  							
 Description: Creates a net that can be used to catch the bugs
