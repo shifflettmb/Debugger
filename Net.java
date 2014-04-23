@@ -109,7 +109,7 @@ public class Net {
 			gl.glRotatef(rotateY, 0, 1, 0);
 			if(swing)
 			{
-				inProgress = true; //for weapon switching
+				inProgress = true; //for weapon switching, prevent it from switching if inProgress
 				netRotation = netRotation + netRotationInc;
 				if(netRotation >= maxNetRotation || netRotation <= minNetRotation)
 				{
