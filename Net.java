@@ -44,7 +44,7 @@ public class Net {
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 
 		//all the different texture
-		texNet = CreateTexture(gl, "textures/MSTronNet.jpg");
+		texNet = CreateTexture(gl, "textures/tronNet.jpg");
 	}
 	
 	
