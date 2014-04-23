@@ -83,7 +83,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			centi[i] = new Centipede(gl, canvas, 81f, 80f);
 		//instantiating the Net
 		for(int i=0; i<net.length; i++)
-			net[i] = new Net(gl, canvas, 0f, 0f);
+			net[i] = new Net(gl, canvas, eyex, eyez);
 	}
 
 
