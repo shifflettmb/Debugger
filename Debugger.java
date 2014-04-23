@@ -31,7 +31,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	//centi = centipedes
 	private Centipede[] centi = new Centipede[2]; 
 	// Little miss muffet= spiders. 
-	private Spider[] muffet = new Spider[1]; 
+	private Spider[] muffet = new Spider[1];
+	private Net[] net = new Net[1];
 	private World Earth; 
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
@@ -71,6 +72,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
 			centi[i] = new Centipede(gl, canvas, 81f, 80f);
+		
+		//instantiating the Net
+		for(int i=0; i<net.length; i++)
+			net[i] = new Net(gl, canvas, 0f, 0f);
 
 	}
 
@@ -143,6 +148,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			muffet[i].draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
+		for(int i=0; i<net.length; i++)
+			net[i].draw(gl);
 		
 		
 		//Mini-map
@@ -253,10 +260,14 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			break;
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:	
-			viewangle-=pan;  break;
+			viewangle-=pan;
+			net[0].rotateY = viewangle;
+			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:		
-			viewangle+=pan;  break;
+			viewangle+=pan;
+			net[0].rotateY = viewangle;
+			break;
 		case KeyEvent.VK_UP:
 			rotateY+=5;
 			System.out.println(rotateY);
@@ -278,7 +289,9 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			if (wallcollide(movex, movez))
 				break;
 			eyex = movex;
-			eyez = movez;	
+			eyez = movez;
+			net[0].netX = eyex; //set x,z based
+			net[0].netZ = eyez; //on eye position
 			break;
 		case KeyEvent.VK_DOWN:	//look down 
 			rotateY-=5;
@@ -291,6 +304,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				break;
 			eyex = movex;
 			eyez = movez;
+			net[0].netX = eyex; //
+			net[0].netZ = eyez; 
+			break;
+		case KeyEvent.VK_SPACE: 	
+			if(net[0].visible) 
+				net[0].swing = true; //swing net
 			break;
 
 		case KeyEvent.VK_Q:	System.exit(0);  break;
@@ -404,7 +423,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		int x=e.getX(), y = e.getY();
 		//mouse sensitivity. Do not set to 10. I know it's tempting but that will make it wonky. 
 		int variance = 12;
-		if (x<300-variance) { viewangle+=pan; } else if (x > 300+variance) { viewangle-=pan; } 
+		if (x<300-variance) { viewangle+=pan; net[0].rotateY = viewangle;} else if (x > 300+variance) { viewangle-=pan; net[0].rotateY = viewangle; } 
 		if (y>300+variance) { rotateY-=pan; } else if (y<300-variance) { rotateY+=pan; 	}
 		droid.mouseMove(300, 300); 
 	}
