@@ -68,6 +68,8 @@ public class Centipede
 		if (r != 0)
 			body.get(0).rotateY =r;
 		int limit = 20; 
+		if (HP<20)
+			HP=-1;
 		gl.glPushMatrix();
 		gl.glTranslatef(x, y,z); 
 		//draw stuff here

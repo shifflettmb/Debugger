@@ -373,7 +373,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		for (int i = 0; i < muffet.length-1; i++) {
 			coord = muffet[i].getPos();
-			if (Math.abs(x - coord[0]) < range && Math.abs(z - coord[2]) < range) {
+			if (Math.abs(x - coord[0]) < range+2 && Math.abs(z - coord[2]) < range+2) {
 				muffet[i].HP -= damage;
 				return true;
 			}
