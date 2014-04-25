@@ -173,12 +173,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glLoadIdentity();
 		// msize is map size and is defined at the beginning.
 		gl.glViewport(width-msize, height-msize, msize, msize);	
-		gl.glOrtho(0, msize/2, 0, msize/2, 1, 12);
+		gl.glOrtho(0, msize/4, 0, msize/4, 1, 12);
 		//glu.gluPerspective(90., 1., 20.1, 29.6); 		// fov, aspect, near-clip, far clip
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
-		glu.gluLookAt(eyex-80, 0, eyez-80, 
-				eyex+1f-80, -15, eyez-80,
+		glu.gluLookAt(eyex-msize/8, 7, eyez-msize/8, 
+				eyex+1f-msize/8, -15, eyez-msize/8,
 					0f,1f,0f); 	
 		GLUquadric quadric = glu.gluNewQuadric(); 
 		//the "You are here" dot on the minimap. 
