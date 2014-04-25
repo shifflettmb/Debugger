@@ -32,6 +32,7 @@ import java.awt.Robot;
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
 	// 
+	private int damage = 20, range = 4; 
 	private Butterfly[] butterfly = new Butterfly[4];
 	//centi = centipedes
 	private Centipede[] centi = new Centipede[2]; 
@@ -345,7 +346,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public boolean caughtBug(Float x, Float z) {
-		int damage = 20, range = 4; 
+		
 
 		Float[] coord;
 		Float[][] centiCoord;
