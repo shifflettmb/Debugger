@@ -358,7 +358,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			}
 		}
 
-
 		for (int i = 0; i < centi.length-1; i++) {
 			centiCoord = centi[i].getPos();
 			for (int j = 0; j < centi[i].bodyLength()-1; j++){
@@ -368,8 +367,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				}
 			}
 		}
-
-
 		
 			coord = muffet.getPos();
 			if (Math.abs(x - coord[0]) < range+2 && Math.abs(z - coord[2]) < range+2) {
@@ -377,8 +374,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				return true;
 			}
 		
-
-
 		return false;
 	}
 
