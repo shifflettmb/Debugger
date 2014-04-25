@@ -26,7 +26,9 @@ public class Butterfly
 	
 	
 	private GLU glu = new GLU();
-
+	public Float size(){
+		return size;
+	}
 	public Float[] getPos(){
 		Float[] temp = {tranX, tranY, tranZ}; // :C 
 		return temp;

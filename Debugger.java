@@ -327,6 +327,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		case KeyEvent.VK_SPACE: 	
 			if(net[0].visible) 
 				net[0].swing = true; //swing net
+			//Float hitx = new Float(eyex-1*Math.cos(Math.toRadians(viewangle))), hitz= new Float(eyez+1*Math.sin(Math.toRadians(viewangle)));
 			caughtBug(eyex,eyez); 
 			break;
 
@@ -344,7 +345,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public boolean caughtBug(Float x, Float z) {
-		int damage = 20; 
+		int damage = 20, range = 4; 
 
 		Float[] coord;
 		Float[][] centiCoord;
@@ -352,7 +353,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		for (int i = 0; i < butterfly.length-1; i++) {
 			coord = butterfly[i].getPos();
-			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
+			if (Math.abs(x - coord[0]) < range && Math.abs(z - coord[2]) < range) {
 				butterfly[i].HP -= damage;
 				return true;
 			}
@@ -362,7 +363,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for (int i = 0; i < centi.length-1; i++) {
 			centiCoord = centi[i].getPos();
 			for (int j = 0; j < centi[i].bodyLength()-1; j++){
-				if (Math.abs(x - centiCoord[j][0]) < 2 && Math.abs(z - centiCoord[j][2]) < 2) {
+				if (Math.abs(x - centiCoord[j][0]) < range && Math.abs(z - centiCoord[j][2]) <  range) {
 					centi[i].HP -= damage;
 					return true;
 				}
@@ -372,7 +373,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		for (int i = 0; i < muffet.length-1; i++) {
 			coord = muffet[i].getPos();
-			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
+			if (Math.abs(x - coord[0]) < range && Math.abs(z - coord[2]) < range) {
 				muffet[i].HP -= damage;
 				return true;
 			}
