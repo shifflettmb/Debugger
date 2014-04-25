@@ -37,8 +37,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	//centi = centipedes
 	private Centipede[] centi = new Centipede[2]; 
 	// Little miss muffet= spiders. 
-	private Spider[] muffet = new Spider[1];
-	private Net[] net = new Net[1];
+	private Spider muffet;
+	private Net net;
 	private World Earth; 
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
@@ -75,16 +75,15 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//For the instantiations below, use the parameters (gl, canvas, X, Z)
 		//instantiating all butterflies
 		for(int i=0; i<butterfly.length; i++)
-			butterfly[i] = new Butterfly(gl, canvas, 21f*i, 21f*i);
+			butterfly[i] = new Butterfly(gl, canvas, 21f*(i+1), 21f*(i+1));
 		//instantiating all Spiders
-		for(int i=0; i<muffet.length; i++)
-			muffet[i]=new Spider(gl, canvas, 80f, 40f); 
+			muffet=new Spider(gl, canvas, 110f, 110f); 
 		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
-			centi[i] = new Centipede(gl, canvas, 81f, 80f);
+			centi[i] = new Centipede(gl, canvas, 90f, 90f);
 		//instantiating the Net
-		for(int i=0; i<net.length; i++)
-			net[i] = new Net(gl, canvas, eyex, eyez);
+		
+			net = new Net(gl, canvas, eyex, eyez);
 	}
 
 
@@ -129,9 +128,9 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		y += 55; creatureCount = 0;
 		gl.glRasterPos2i(x, y);
-		for(int i=0; i<muffet.length; i++) {
-			if (muffet[i].HP > 0) {creatureCount++;}
-		}
+		
+			if (muffet.HP > 0) {creatureCount++;}
+		
 		glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
 
 
@@ -161,12 +160,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Earth.draw(gl);
 		for (int i =0; i<butterfly.length; i++)
 			butterfly[i].draw(gl);
-		for (int i =0; i<muffet.length; i++)
-			muffet[i].draw(gl);
+			muffet.draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
-		for(int i=0; i<net.length; i++)
-			net[i].draw(gl);
+	
+			net.draw(gl);
 
 
 		//Mini-map
@@ -192,12 +190,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Earth.draw(gl);
 		for (int i = 0; i< butterfly.length; i++)
 			butterfly[i].draw(gl);
-		for (int i = 0; i<muffet.length; i++)
-			muffet[i].draw(gl);
+		
+			muffet.draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
-		for(int i=0; i<net.length; i++)
-			net[i].draw(gl);
+		
+			net.draw(gl);
 
 
 		// check for errors
@@ -283,19 +281,19 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:	
 			viewangle-=pan;
-			net[0].rotateY = viewangle;
+			net.rotateY = viewangle;
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:		
 			viewangle+=pan;
-			net[0].rotateY = viewangle;
+			net.rotateY = viewangle;
 			break;
 		case KeyEvent.VK_SHIFT: // allows you to "pause" animations. For testing purposes only. 
 			paused=!paused;
 			for (int i=0; i <butterfly.length; i++){
 				butterfly[i].paused=!butterfly[i].paused;
 				centi[i].paused = paused;
-				muffet[i].paused = paused;
+				muffet.paused = paused;
 			}
 			if (BETAmode)
 				butterfly[3].paused=!butterfly[3].paused;
@@ -308,8 +306,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				break;
 			eyex = movex;
 			eyez = movez;
-			net[0].netX = eyex; //set x,z based
-			net[0].netZ = eyez; //on eye position
+			net.netX = eyex; //set x,z based
+			net.netZ = eyez; //on eye position
 			break;
 		case KeyEvent.VK_DOWN:	//look down 
 			rotateY-=5;
@@ -322,12 +320,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				break;
 			eyex = movex;
 			eyez = movez;
-			net[0].netX = eyex; //set x,z based
-			net[0].netZ = eyez; //on eye position
+			net.netX = eyex; //set x,z based
+			net.netZ = eyez; //on eye position
 			break;
 		case KeyEvent.VK_SPACE: 	
-			if(net[0].visible) 
-				net[0].swing = true; //swing net
+			if(net.visible) 
+				net.swing = true; //swing net
 			//Float hitx = new Float(eyex-1*Math.cos(Math.toRadians(viewangle))), hitz= new Float(eyez+1*Math.sin(Math.toRadians(viewangle)));
 			caughtBug(eyex,eyez); 
 			break;
@@ -372,13 +370,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		}
 
 
-		for (int i = 0; i < muffet.length-1; i++) {
-			coord = muffet[i].getPos();
+		
+			coord = muffet.getPos();
 			if (Math.abs(x - coord[0]) < range+2 && Math.abs(z - coord[2]) < range+2) {
-				muffet[i].HP -= damage;
+				muffet.HP -= damage;
 				return true;
 			}
-		}
+		
 
 
 		return false;
@@ -455,7 +453,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		int x=e.getX(), y = e.getY();
 		//mouse sensitivity. Do not set to 10. I know it's tempting but that will make it wonky. 
 		int variance = 12;
-		if (x<300-variance) { viewangle+=pan; net[0].rotateY = viewangle;} else if (x > 300+variance) { viewangle-=pan; net[0].rotateY = viewangle; } 
+		if (x<300-variance) { viewangle+=pan; net.rotateY = viewangle;} else if (x > 300+variance) { viewangle-=pan; net.rotateY = viewangle; } 
 		if (y>300+variance) { rotateY-=pan; } else if (y<300-variance) { rotateY+=pan; 	}
 		droid.mouseMove(300, 300); 
 	}
