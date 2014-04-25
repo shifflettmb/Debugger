@@ -96,7 +96,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		int msize = 160*2;// MAP SIZE
 
 
-//Scoreboard
+		//Scoreboard
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
 		gl.glViewport(width-msize, 0, msize, msize);	
@@ -166,7 +166,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			centi[i].draw(gl);
 		for(int i=0; i<net.length; i++)
 			net[i].draw(gl);
-		
+
 
 		//Mini-map
 		gl.glMatrixMode(GL2.GL_PROJECTION);
@@ -179,7 +179,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glLoadIdentity();
 		glu.gluLookAt(eyex-msize/8, 7, eyez-msize/8, 
 				eyex+1f-msize/8, -15, eyez-msize/8,
-					0f,1f,0f); 	
+				0f,1f,0f); 	
 		GLUquadric quadric = glu.gluNewQuadric(); 
 		//the "You are here" dot on the minimap. 
 		gl.glPushMatrix();
@@ -279,13 +279,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Float movex, movez; 
 		switch (key)
 		{
-		//When they hit minus, demo the bugs dying (remove later)
-		case KeyEvent.VK_MINUS:
-			if (centi[0].HP>0)
-				centi[0].HP--;  
-			butterfly[0].HP=0;
-			muffet[0].HP--;
-			break;
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:	
 			viewangle-=pan;
@@ -295,10 +288,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		case KeyEvent.VK_LEFT:		
 			viewangle+=pan;
 			net[0].rotateY = viewangle;
-			break;
-		case KeyEvent.VK_UP:
-			rotateY+=5;
-			System.out.println(rotateY);
 			break;
 		case KeyEvent.VK_SHIFT: // allows you to "pause" animations. For testing purposes only. 
 			paused=!paused;
@@ -338,6 +327,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		case KeyEvent.VK_SPACE: 	
 			if(net[0].visible) 
 				net[0].swing = true; //swing net
+			caughtBug(eyex,eyez); 
 			break;
 
 
@@ -354,7 +344,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public boolean caughtBug(Float x, Float z) {
-
+		int damage = 20; 
 
 		Float[] coord;
 		Float[][] centiCoord;
@@ -363,7 +353,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for (int i = 0; i < butterfly.length-1; i++) {
 			coord = butterfly[i].getPos();
 			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
-				butterfly[i].HP -= 20;
+				butterfly[i].HP -= damage;
 				return true;
 			}
 		}
@@ -373,7 +363,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			centiCoord = centi[i].getPos();
 			for (int j = 0; j < centi[i].bodyLength()-1; j++){
 				if (Math.abs(x - centiCoord[j][0]) < 2 && Math.abs(z - centiCoord[j][2]) < 2) {
-					centi[i].HP -= 20;
+					centi[i].HP -= damage;
 					return true;
 				}
 			}
@@ -383,7 +373,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for (int i = 0; i < muffet.length-1; i++) {
 			coord = muffet[i].getPos();
 			if (Math.abs(x - coord[0]) < 2 && Math.abs(z - coord[2]) < 2) {
-				muffet[i].HP -= 20;
+				muffet[i].HP -= damage;
 				return true;
 			}
 		}
