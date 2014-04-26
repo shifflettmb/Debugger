@@ -10,7 +10,7 @@ public class Centipede
 	//Motion in Centipede -- each body segment "follows" another. they are otherwise seperate entities. This allows the body to be fluid but contiguous. 
 	//The legs wiggle on a sin() based rotate.  
 	//starts on random frame at random time to help make the motion not so synchronous and creepy.
-	private Float tranX=0f, tranZ=0f, timer=0f, size = .5f, centSpeed =.05f; 
+	private Float tranX=0f, tranZ=0f, timer=0f, size = .5f, centSpeed =.04f; 
 	public int HP = 100; 
 	private ArrayList<Segment> body = new ArrayList<Segment>(0);
 
@@ -22,9 +22,9 @@ public class Centipede
 	public Float[][] getPos(){
 		Float[][] temp = new Float[(int)HP/20][3]; 
 		for (int i = 0; i < temp.length; i++){
-			temp[i][0]=body.get(0).x;
-			temp[i][1]=body.get(0).y; 
-			temp[i][2]=body.get(0).z;
+			temp[i][0]=body.get(i).x;
+			temp[i][1]=body.get(i).y; 
+			temp[i][2]=body.get(i).z;
 		}
 		return temp;
 	}

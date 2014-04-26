@@ -11,7 +11,7 @@ public class Butterfly
 				tranZ=0f,  		//Z coordinate
 				tranY=5-size,	// this is their height. Note: Bigger butterflies fly lower because we don't want them to hit the ceiling.
 				timer=0f,		// simply counts every time it's drawn. 
-				buttSpeed =.1f;// How fast are butterflies?
+				buttSpeed =.05f;// How fast are butterflies?
 	public int HP = 1; 
 	
 	//Motion is based on timer; Animation based on Frame. There is 20 "frames" of motion (the wings flapping). 

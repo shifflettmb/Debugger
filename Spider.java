@@ -14,8 +14,7 @@ public class Spider
 	//an upward thrust. 
 	private int frame = (int)(Math.random()*100); 
 	private GLUquadric quadric; 	// to control properties of quadric-based objects here
-	public Float speed = .5f; // walk speed of CAMERA not mobs. 
-	private Float spidSpeed =.0025f; // Spider speed
+	private Float spidSpeed =.0024f; // Spider speed
 	private boolean move = true; 
 	public boolean paused = false; 
 
