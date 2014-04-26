@@ -350,13 +350,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	public boolean caughtBug(Float x, Float z) {
 		//storing positions 
-		for (int i = 0; i < centi.length-1; i++) 
+		for (int i = 0; i < centi.length; i++) 
 			centiCoord[i] = centi[i].getPos();
-		for (int i = 0; i < butterfly.length-1; i++) 
+		for (int i = 0; i < butterfly.length; i++) 
 			buttCoord[i] = butterfly[i].getPos();
 		spidCoord = muffet.getPos();
 		//calculating
-		for (int i = 0; i < butterfly.length-1; i++) 
+		for (int i = 0; i < butterfly.length; i++) 
 			if (Math.abs(x - buttCoord[i][0]) < range && Math.abs(z - buttCoord[i][2]) < range) {
 				butterfly[i].HP -= damage;
 				return true;
@@ -366,7 +366,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			return true;
 		}
 		for (int i = 0; i < centi.length; i++) {
-			for (int j = 0; j < centi[i].bodyLength()-1; j++){
+			for (int j = 0; j < centi[i].bodyLength(); j++){
 				if (Math.abs(x - centiCoord[i][j][0]) < range && Math.abs(z - centiCoord[i][j][2]) <  range+1) {
 					centi[i].HP -= damage;
 					return true;
