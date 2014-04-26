@@ -52,7 +52,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	private static Robot droid;
 	private float viewangle=0f, stepsize=.5f, pan=2f;
 	public float eyex=10f, eyey=4f, eyez=10f; 
-	public boolean BETAmode=false, paused=false;
+	public boolean BETAmode=false, paused=false, endGame=false;
 	private static JFrame frame;
 	public static int width;
 	public static int height;
@@ -114,14 +114,14 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		int x = msize/2 + 10;
 		int y =  msize;
 		int creatureCount = 0;
-
+		int totalCount = 0;
 
 		gl.glRasterPos2i(x, y);
 		for(int i=0; i<butterfly.length; i++) {
 			if (butterfly[i].HP > 0) {creatureCount++;}
 		}
 		glut.glutBitmapString(5, "Butterflies Remaining: " + creatureCount);
-
+		totalCount+=creatureCount;
 
 		y += 55; creatureCount = 0;
 		gl.glRasterPos2i(x, y);
@@ -129,16 +129,20 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			if (centi[i].HP > 0) {creatureCount++;}
 		}
 		glut.glutBitmapString(5, "Centipedes Remaining: " + creatureCount);
-
-
+		totalCount+=creatureCount;
+		
 		y += 55; creatureCount = 0;
 		gl.glRasterPos2i(x, y);
 
 		if (muffet.HP > 0) {creatureCount++;}
-
+		totalCount+=creatureCount;
 		glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
 
-
+		if (totalCount<1 && !endGame) {
+			endGame=true; 
+			pausedTime=System.currentTimeMillis();
+			paused=true;
+		}
 		y += 55;		
 		long currentTime = System.currentTimeMillis();
 		if (paused) {
@@ -303,6 +307,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			net.rotateY = viewangle;
 			break;
 		case KeyEvent.VK_SHIFT: 
+			if (endGame) break;
 			paused=!paused;
 			if (paused)
 				pausedTime=System.currentTimeMillis();
@@ -330,6 +335,14 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			net.netX = eyex; //set x,z based
 			net.netZ = eyez; //on eye position
 			break;
+		//this key will instantly kill all bugs for testing purposes
+		/*case KeyEvent.VK_O:
+			for (Butterfly X : butterfly)
+				X.HP=0;
+			muffet.HP=0;
+			for (Centipede X : centi)
+				X.HP=0;
+			break;*/
 		case KeyEvent.VK_DOWN:	//look down  
 		case KeyEvent.VK_S:	
 			if (paused)

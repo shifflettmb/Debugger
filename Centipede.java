@@ -67,19 +67,17 @@ public class Centipede
 	{
 		if (r != 0)
 			body.get(0).rotateY =r;
-		int limit = 20; 
-		if (HP<20)
+		if (HP<30)
 			HP=-1;
 		gl.glPushMatrix();
 		gl.glTranslatef(x, y,z); 
 		//draw stuff here
 		cent(gl);
 		gl.glPopMatrix();
-		move(limit-size*body.size());
+		move();
 	}
 	//movement code
-	private void move(float limit){
-		limit = 150;
+	private void move(){
 		if (paused)
 			return;
 		//can make them stationary
