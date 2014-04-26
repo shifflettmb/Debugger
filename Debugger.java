@@ -33,7 +33,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 {
 	// coordinate arrays
 
-
+	private String timeRunning;
 	private int damage = 20, range = 4; 
 	private Butterfly[] butterfly = new Butterfly[4];
 	//centi = centipedes
@@ -56,7 +56,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	private static JFrame frame;
 	public static int width;
 	public static int height;
-	private static long startTime = System.currentTimeMillis();
+	private static long startTime = System.currentTimeMillis(), pausedTime, totalPaused=0, currentPaused;
 
 
 	public void init(GLAutoDrawable drawable) 
@@ -141,8 +141,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		y += 55;		
 		long currentTime = System.currentTimeMillis();
-		String timeRunning = (((currentTime - startTime) / (1000 * 60)) % 60) + ":" + 
-				(((currentTime - startTime) / 1000) % 60);
+		if (paused) {
+			currentPaused = currentTime-pausedTime;
+		} else {
+			currentPaused = 0;
+		}
+		timeRunning = (((currentTime - startTime -totalPaused- currentPaused) / (1000 * 60)) % 60) + ":" + 
+				(((currentTime - startTime-totalPaused-currentPaused) / 1000) % 60);
 		gl.glRasterPos2i(x, y);
 		glut.glutBitmapString(5, "Debugging Time: " + timeRunning);
 
@@ -297,8 +302,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			viewangle+=pan;
 			net.rotateY = viewangle;
 			break;
-		case KeyEvent.VK_SHIFT: // allows you to "pause" animations. For testing purposes only. 
+		case KeyEvent.VK_SHIFT: 
 			paused=!paused;
+			if (paused)
+				pausedTime=System.currentTimeMillis();
+			else 
+				totalPaused = currentPaused+totalPaused;
 			for (int i=0; i <butterfly.length; i++)
 				butterfly[i].paused=paused;
 			muffet.paused = paused;
