@@ -299,7 +299,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				butterfly[i].paused=paused;
 			muffet.paused = paused;
 			for (int i=0; i <centi.length; i++)			
-				centi[1].paused = paused;
+				centi[i].paused = paused;
 			if (BETAmode)
 				butterfly[3].paused=!butterfly[3].paused;
 			break;
