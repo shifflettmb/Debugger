@@ -365,7 +365,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			muffet.HP -= damage;
 			return true;
 		}
-		for (int i = 0; i < centi.length-1; i++) {
+		for (int i = 0; i < centi.length; i++) {
 			for (int j = 0; j < centi[i].bodyLength()-1; j++){
 				if (Math.abs(x - centiCoord[i][j][0]) < range && Math.abs(z - centiCoord[i][j][2]) <  range+1) {
 					centi[i].HP -= damage;
