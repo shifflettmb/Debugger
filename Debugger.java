@@ -31,14 +31,19 @@ import java.awt.Robot;
 //  but to be honest it's so funny I wanted to keep it. 
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
-	// 
+	// coordinate arrays
+	
+	
 	private int damage = 20, range = 4; 
 	private Butterfly[] butterfly = new Butterfly[4];
 	//centi = centipedes
 	private Centipede[] centi = new Centipede[2]; 
-	// Little miss muffet= spiders. 
+	// Little miss muffet= spiders.
 	private Spider muffet;
 	private Net net;
+	Float[] spidCoord = new Float[3];
+	Float[][] buttCoord = new Float[butterfly.length][3];
+	Float[][][] centiCoord = new Float[centi.length][5][3];
 	private World Earth; 
 	private Float rotateY=-95f;
 	private GLCanvas canvas;
@@ -80,7 +85,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			muffet=new Spider(gl, canvas, 110f, 110f); 
 		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
-			centi[i] = new Centipede(gl, canvas, 90f, 90f);
+			centi[i] = new Centipede(gl, canvas, (float)(45*(i+1)), (float)(45*(i+1)));
 		//instantiating the Net
 		
 			net = new Net(gl, canvas, eyex, eyez);
@@ -344,35 +349,35 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 	public boolean caughtBug(Float x, Float z) {
-		
-
-		Float[] coord;
-		Float[][] centiCoord;
-
-
-		for (int i = 0; i < butterfly.length-1; i++) {
-			coord = butterfly[i].getPos();
-			if (Math.abs(x - coord[0]) < range && Math.abs(z - coord[2]) < range) {
+		//storing positions 
+		for (int i = 0; i < centi.length-1; i++) 
+			centiCoord[i] = centi[i].getPos();
+		for (int i = 0; i < butterfly.length-1; i++) 
+			buttCoord[i] = butterfly[i].getPos();
+			spidCoord = muffet.getPos();
+		//calculating
+		for (int i = 0; i < butterfly.length-1; i++) 
+			
+			if (Math.abs(x - buttCoord[i][0]) < range && Math.abs(z - buttCoord[i][2]) < range) {
 				butterfly[i].HP -= damage;
 				return true;
 			}
+		
+		for (int i = 0; i < butterfly.length-1; i++) 
+		if (Math.abs(x - buttCoord[i][0]) < range+2 && Math.abs(z - buttCoord[i][2]) < range+2) {
+			muffet.HP -= damage;
+			return true;
 		}
-
 		for (int i = 0; i < centi.length-1; i++) {
-			centiCoord = centi[i].getPos();
 			for (int j = 0; j < centi[i].bodyLength()-1; j++){
-				if (Math.abs(x - centiCoord[j][0]) < range && Math.abs(z - centiCoord[j][2]) <  range) {
+				if (Math.abs(x - centiCoord[i][j][0]) < range && Math.abs(z - centiCoord[i][j][2]) <  range) {
 					centi[i].HP -= damage;
 					return true;
 				}
 			}
 		}
 		
-			coord = muffet.getPos();
-			if (Math.abs(x - coord[0]) < range+2 && Math.abs(z - coord[2]) < range+2) {
-				muffet.HP -= damage;
-				return true;
-			}
+			
 		
 		return false;
 	}
