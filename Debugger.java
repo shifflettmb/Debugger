@@ -32,8 +32,8 @@ import java.awt.Robot;
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
 	// coordinate arrays
-	
-	
+
+
 	private int damage = 20, range = 4; 
 	private Butterfly[] butterfly = new Butterfly[4];
 	//centi = centipedes
@@ -82,13 +82,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for(int i=0; i<butterfly.length; i++)
 			butterfly[i] = new Butterfly(gl, canvas, 21f*(i+1), 21f*(i+1));
 		//instantiating all Spiders
-			muffet=new Spider(gl, canvas, 110f, 110f); 
+		muffet=new Spider(gl, canvas, 110f, 110f); 
 		//instantiating all centipedes
 		for(int i=0; i<centi.length; i++)
 			centi[i] = new Centipede(gl, canvas, (float)(45*(i+1)), (float)(45*(i+1)));
 		//instantiating the Net
-		
-			net = new Net(gl, canvas, eyex, eyez);
+
+		net = new Net(gl, canvas, eyex, eyez);
 	}
 
 
@@ -133,9 +133,9 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 		y += 55; creatureCount = 0;
 		gl.glRasterPos2i(x, y);
-		
-			if (muffet.HP > 0) {creatureCount++;}
-		
+
+		if (muffet.HP > 0) {creatureCount++;}
+
 		glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
 
 
@@ -165,11 +165,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Earth.draw(gl);
 		for (int i =0; i<butterfly.length; i++)
 			butterfly[i].draw(gl);
-			muffet.draw(gl);
+		muffet.draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
-	
-			net.draw(gl);
+
+		net.draw(gl);
 
 
 		//Mini-map
@@ -195,12 +195,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Earth.draw(gl);
 		for (int i = 0; i< butterfly.length; i++)
 			butterfly[i].draw(gl);
-		
-			muffet.draw(gl);
+
+		muffet.draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
-		
-			net.draw(gl);
+
+		net.draw(gl);
 
 
 		// check for errors
@@ -295,11 +295,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			break;
 		case KeyEvent.VK_SHIFT: // allows you to "pause" animations. For testing purposes only. 
 			paused=!paused;
-			for (int i=0; i <butterfly.length; i++){
-				butterfly[i].paused=!butterfly[i].paused;
-				centi[i].paused = paused;
-				muffet.paused = paused;
-			}
+			for (int i=0; i <butterfly.length; i++)
+				butterfly[i].paused=paused;
+			muffet.paused = paused;
+			for (int i=0; i <centi.length; i++)			
+				centi[1].paused = paused;
 			if (BETAmode)
 				butterfly[3].paused=!butterfly[3].paused;
 			break;
@@ -354,7 +354,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			centiCoord[i] = centi[i].getPos();
 		for (int i = 0; i < butterfly.length-1; i++) 
 			buttCoord[i] = butterfly[i].getPos();
-			spidCoord = muffet.getPos();
+		spidCoord = muffet.getPos();
 		//calculating
 		for (int i = 0; i < butterfly.length-1; i++) 
 			if (Math.abs(x - buttCoord[i][0]) < range && Math.abs(z - buttCoord[i][2]) < range) {
