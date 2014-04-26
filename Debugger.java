@@ -367,15 +367,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		}
 		for (int i = 0; i < centi.length-1; i++) {
 			for (int j = 0; j < centi[i].bodyLength()-1; j++){
-				if (Math.abs(x - centiCoord[i][j][0]) < range && Math.abs(z - centiCoord[i][j][2]) <  range) {
+				if (Math.abs(x - centiCoord[i][j][0]) < range && Math.abs(z - centiCoord[i][j][2]) <  range+1) {
 					centi[i].HP -= damage;
 					return true;
 				}
 			}
 		}
-		
-			
-		
 		return false;
 	}
 
@@ -419,7 +416,7 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		else if (tooClose(movex, 0f) || tooClose(movez, 0f) || tooClose(movex, 160f) || tooClose(movez, 160f))
 			return true;
 		//the 8 rooms. 
-		for (int i = 0; i<8; i++) {
+		for (int i = 0; i<9; i++) {
 			if (tooClose(movex, tranX) && (between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
 				return true; 
 			else if (tooClose(movex, tranX+40) &&(between(movez, tranZ,tranZ+17) || between (movez, tranZ+23, tranZ+40)))
