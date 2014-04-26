@@ -285,11 +285,15 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		{
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:	
+			if (paused)
+				break;
 			viewangle-=pan;
 			net.rotateY = viewangle;
 			break;
 		case KeyEvent.VK_A:
-		case KeyEvent.VK_LEFT:		
+		case KeyEvent.VK_LEFT:
+			if (paused)
+				break;
 			viewangle+=pan;
 			net.rotateY = viewangle;
 			break;
@@ -303,7 +307,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			if (BETAmode)
 				butterfly[3].paused=!butterfly[3].paused;
 			break;
+		case KeyEvent.VK_UP:
 		case KeyEvent.VK_W:
+			if (paused)
+				break;
 			movex = new Float(eyex+stepsize*Math.cos(Math.toRadians(viewangle))); 
 			movez = new Float(eyez-stepsize*Math.sin(Math.toRadians(viewangle)));
 			//if you're trying to step into a wall, don't move forward. 
@@ -314,11 +321,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			net.netX = eyex; //set x,z based
 			net.netZ = eyez; //on eye position
 			break;
-		case KeyEvent.VK_DOWN:	//look down 
-			rotateY-=5;
-			//System.out.println(rotateY);
-			break; 
+		case KeyEvent.VK_DOWN:	//look down  
 		case KeyEvent.VK_S:	
+			if (paused)
+				break;
 			movex = new Float(eyex-stepsize*Math.cos(Math.toRadians(viewangle))); 
 			movez = new Float(eyez+stepsize*Math.sin(Math.toRadians(viewangle)));
 			if (wallcollide(movex, movez))
@@ -329,6 +335,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			net.netZ = eyez; //on eye position
 			break;
 		case KeyEvent.VK_SPACE: 	
+			if (paused)
+				break;
 			if(net.visible) 
 				net.swing = true; //swing net
 			//Float hitx = new Float(eyex-1*Math.cos(Math.toRadians(viewangle))), hitz= new Float(eyez+1*Math.sin(Math.toRadians(viewangle)));
@@ -350,13 +358,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 	public boolean caughtBug(Float x, Float z) {
 		//storing positions 
-		for (int i = 0; i < centi.length-1; i++) 
+		for (int i = 0; i < centi.length; i++) 
 			centiCoord[i] = centi[i].getPos();
-		for (int i = 0; i < butterfly.length-1; i++) 
+		for (int i = 0; i < butterfly.length; i++) 
 			buttCoord[i] = butterfly[i].getPos();
 		spidCoord = muffet.getPos();
 		//calculating
-		for (int i = 0; i < butterfly.length-1; i++) 
+		for (int i = 0; i < butterfly.length; i++) 
 			if (Math.abs(x - buttCoord[i][0]) < range && Math.abs(z - buttCoord[i][2]) < range) {
 				butterfly[i].HP -= damage;
 				return true;
