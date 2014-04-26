@@ -3,6 +3,8 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
 
+
+
 import javax.swing.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
@@ -10,7 +12,11 @@ import javax.media.opengl.glu.*;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 
+
+
 import com.jogamp.opengl.util.*;
+
+
 
 
 import java.awt.Robot;
@@ -19,9 +25,13 @@ import java.awt.Robot;
 //			PRESS Q TO QUIT! Alternatively, press SHIFT to pause the animation for a better look. 
 
 
+
+
 // Note: Because of the mouse controls (and JoGL's GLUT not allowing you to use warpPointer to move the mouse, I couldn't do relative positions of 
 // the mouse and had to do absolute coordinates, while the mouseListener uses relative coordinates-- simple solution: make them one and the same!
 // Unfortunately, this means the game has to be run in full screen. 
+
+
 
 
 //	Note on centipede-- it's a known bug with a known bug. This particular insect does not like my "if out of the box, turn around" code. This is because 
@@ -32,6 +42,7 @@ import java.awt.Robot;
 public class Debugger implements GLEventListener, KeyListener, MouseListener, MouseMotionListener
 {
 	// coordinate arrays
+
 
 	private String timeRunning;
 	private int damage = 20, range = 4; 
@@ -59,11 +70,15 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	private static long startTime = System.currentTimeMillis(), pausedTime, totalPaused=0, currentPaused;
 
 
+
+
 	public void init(GLAutoDrawable drawable) 
 	{
 		GL2 gl = drawable.getGL().getGL2();
 		gl.setSwapInterval(1);			// for animation synchronized to refresh rate
 		gl.glClearColor(0f,0f,0f,0f);	// black background
+
+
 
 
 		gl.glShadeModel(GL2.GL_SMOOTH);	// smooth or flat 		
@@ -73,6 +88,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		//  How nice is the drawing?
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
 		Earth = new World(gl); //probably the most "I am alpha and omega" line of code ever.
+
+
+
+
 
 
 
@@ -87,9 +106,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for(int i=0; i<centi.length; i++)
 			centi[i] = new Centipede(gl, canvas, (float)(45*(i+1)), (float)(45*(i+1)));
 		//instantiating the Net
-
 		net = new Net(gl, canvas, eyex, eyez);
 	}
+
+
 
 
 	public void display(GLAutoDrawable drawable)
@@ -100,7 +120,6 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glLoadIdentity();
 		int msize = 160*2;// MAP SIZE
 
-
 		//Scoreboard
 		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glLoadIdentity();
@@ -110,50 +129,81 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
 
-
 		int x = msize/2 + 10;
 		int y =  msize;
 		int creatureCount = 0;
 		int totalCount = 0;
 
-		gl.glRasterPos2i(x, y);
-		for(int i=0; i<butterfly.length; i++) {
-			if (butterfly[i].HP > 0) {creatureCount++;}
-		}
-		glut.glutBitmapString(5, "Butterflies Remaining: " + creatureCount);
-		totalCount+=creatureCount;
 
-		y += 55; creatureCount = 0;
-		gl.glRasterPos2i(x, y);
-		for(int i=0; i<centi.length; i++) {
-			if (centi[i].HP > 0) {creatureCount++;}
-		}
-		glut.glutBitmapString(5, "Centipedes Remaining: " + creatureCount);
-		totalCount+=creatureCount;
-		
-		y += 55; creatureCount = 0;
-		gl.glRasterPos2i(x, y);
+		if(!endGame)
+		{
+			gl.glRasterPos2i(x, y);
+			for(int i=0; i<butterfly.length; i++) 
+			{
+				if (butterfly[i].HP > 0) 
+				{
+					creatureCount++;
+				}
+			}
+			glut.glutBitmapString(5, "Butterflies Remaining: " + creatureCount);
+			totalCount+=creatureCount;
 
-		if (muffet.HP > 0) {creatureCount++;}
-		totalCount+=creatureCount;
-		glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
+			y += 55; creatureCount = 0;
+			gl.glRasterPos2i(x, y);
+			for(int i=0; i<centi.length; i++) 
+			{
+				if (centi[i].HP > 0) 
+				{
+					creatureCount++;
+				}
+			}
+			glut.glutBitmapString(5, "Centipedes Remaining: " + creatureCount);
+			totalCount+=creatureCount;
 
-		if (totalCount<1 && !endGame) {
-			endGame=true; 
-			pausedTime=System.currentTimeMillis();
-			paused=true;
+			y += 55; creatureCount = 0;
+			gl.glRasterPos2i(x, y);
+			if (muffet.HP > 0) 
+			{
+				creatureCount++;
+			}
+			totalCount+=creatureCount;
+			glut.glutBitmapString(5, "Spiders Remaining: " + creatureCount);
+
+			if (totalCount<1) 
+			{
+				endGame=true; 
+				pausedTime=System.currentTimeMillis();
+				paused=true;
+			}
+
+			y += 55;		
+			long currentTime = System.currentTimeMillis();
+			if (paused) {
+				currentPaused = currentTime-pausedTime;
+			} else {
+				currentPaused = 0;
+			}
+			timeRunning = (((currentTime - startTime -totalPaused- currentPaused) / (1000 * 60)) % 60) + ":" + 
+					(((currentTime - startTime-totalPaused-currentPaused) / 1000) % 60);
+
+			gl.glRasterPos2i(x, y);
+			glut.glutBitmapString(5, "Debugging Time: " + timeRunning);
 		}
-		y += 55;		
-		long currentTime = System.currentTimeMillis();
-		if (paused) {
-			currentPaused = currentTime-pausedTime;
-		} else {
-			currentPaused = 0;
+
+		if(endGame)
+		{
+			y += 165;
+			gl.glRasterPos2i(x,y);
+			glut.glutBitmapString(5, "Final Debug Time: " + timeRunning);
+
+			y += 55;
+			gl.glRasterPos2i(x,y);
+			glut.glutBitmapString(5, "Program. Game Over.");
+			y += 55;
+			gl.glRasterPos2i(x,y);
+			glut.glutBitmapString(5, "You Debugged The Entire");
 		}
-		timeRunning = (((currentTime - startTime -totalPaused- currentPaused) / (1000 * 60)) % 60) + ":" + 
-				(((currentTime - startTime-totalPaused-currentPaused) / 1000) % 60);
-		gl.glRasterPos2i(x, y);
-		glut.glutBitmapString(5, "Debugging Time: " + timeRunning);
+
 
 
 		//Map
@@ -170,6 +220,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				0f,1f,0f); 						// the "up" direction
 
 
+
+
 		//drawing all the perspective objects
 		Earth.draw(gl);
 		for (int i =0; i<butterfly.length; i++)
@@ -178,7 +230,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
 
+
 		net.draw(gl);
+
+
 
 
 		//Mini-map
@@ -205,11 +260,15 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		for (int i = 0; i< butterfly.length; i++)
 			butterfly[i].draw(gl);
 
+
 		muffet.draw(gl);
 		for(int i=0; i<centi.length; i++)
 			centi[i].draw(gl);
 
+
 		net.draw(gl);
+
+
 
 
 		// check for errors
@@ -219,9 +278,13 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 	}
 
 
+
+
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height)
 	{
 		GL2  gl  = drawable.getGL().getGL2();
+
+
 
 
 		gl.glMatrixMode(GL2.GL_PROJECTION);
@@ -238,7 +301,11 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 				0f,1f,0f); 						// the "up" direction (y)
 
 
+
+
 	}
+
+
 
 
 	public static void main(String args[])
@@ -253,6 +320,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		Cursor noCursor = t.createCustomCursor(i, new Point(0, 0), "none"); 
 
 
+
+
 		frame = new JFrame("Debugger!");
 		frame.setCursor(noCursor);
 		GLCanvas canvas = new GLCanvas();
@@ -263,6 +332,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			droid = new Robot();
 			droid.mouseMove(300, 300);
 		} catch (Exception error){}
+
+
 
 
 		Debugger renderer = new Debugger();
@@ -276,13 +347,19 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		frame.setVisible(true);
 
 
+
+
 		canvas.requestFocusInWindow();	// Sets focus to the main window
+
+
 
 
 		// This is for continual automatic redraws, to stop, comment out both lines
 		Animator animator = new Animator(canvas);
 		animator.start();		
 	}
+
+
 
 
 	//  What to do when a key is pressed
@@ -366,16 +443,24 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 			break;
 
 
+
+
 		case KeyEvent.VK_Q:	System.exit(0);  break;
 		}
+
+
 
 
 	}
 
 
+
+
 	//Determine if a monster has been caught
 	//Monster has been "caught" if it is within 2 units of the current
 	//camera position
+
+
 
 
 	public boolean caughtBug(Float x, Float z) {
@@ -409,6 +494,10 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 
 
 
+
+
+
+
 	// if your step would land you within 1 unit of the wall (.5 on either side), you're too close. 
 	public static boolean tooClose(Float x, Float coord){
 		if (Math.abs(x-coord)<1)
@@ -431,6 +520,8 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		else
 			return false; 
 	}
+
+
 
 
 	//Answers the question, are you about to walk into a wall? 
@@ -477,10 +568,12 @@ public class Debugger implements GLEventListener, KeyListener, MouseListener, Mo
 		int x=e.getX(), y = e.getY();
 		//mouse sensitivity. Do not set to 10. I know it's tempting but that will make it wonky. 
 		int variance = 12;
-		if (x<300-variance) { viewangle+=pan; net.rotateY = viewangle;} else if (x > 300+variance) { viewangle-=pan; net.rotateY = viewangle; } 
+		if (x<300-variance) { if(!paused){viewangle+=pan; net.rotateY = viewangle;}} else if (x > 300+variance) { if(!paused){viewangle-=pan; net.rotateY = viewangle; }} 
 		if (y>300+variance) { rotateY-=pan; } else if (y<300-variance) { rotateY+=pan; 	}
 		droid.mouseMove(300, 300); 
 	}
+
+
 
 
 }
